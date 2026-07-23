@@ -5,73 +5,131 @@
 <title>Blip</title>
 <style>
   :root{
-    --cream:#FFF8EA; --ink:#2B2640; --purple:#7C5CFC; --purple-dark:#5C3FE0;
-    --yellow:#FFC93C; --coral:#FF6F61; --coral-dark:#E5503F; --muted:#948C9E; --card:#FFFFFF;
+    --paper:#F7F4EB; --card:#FFFFFF; --ink:#18150F;
+    --muted:#6E6656; --hairline:#E4DFCF; --hairline-strong:#18150F;
   }
   *{box-sizing:border-box;}
-  body{margin:0;font-family:"Nunito","Segoe UI",system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;}
-  .display{font-family:"Baloo 2","Nunito",system-ui,sans-serif;font-weight:800;}
-  .app{max-width:420px;margin:0 auto;padding:24px 20px 40px;}
-  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
-  .brand{display:flex;align-items:center;gap:8px;}
-  .brand .display{font-size:24px;color:var(--purple-dark);}
-  .clock{font-size:14px;color:var(--muted);font-weight:700;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    background:var(--paper);color:var(--ink);min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-weight:800;letter-spacing:-0.01em;}
+  .app{max-width:420px;margin:0 auto;padding:28px 20px 40px;}
 
-  .setup{background:var(--card);border-radius:20px;padding:20px;box-shadow:0 2px 0 rgba(0,0,0,0.04);}
+  *:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+
+  /* reusable mascot symbols */
+  .icon-sm{width:30px;height:30px;color:var(--ink);}
+  .icon-hero{width:80px;height:80px;color:var(--ink);}
+  .icon-alert{width:150px;height:150px;color:var(--paper);}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+  .brand{display:flex;align-items:center;gap:9px;}
+  .brand .display{font-size:23px;}
+  .brand .mark{color:var(--muted);font-weight:400;font-size:16px;margin-left:1px;}
+  .clock{font-size:13px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums;}
+
+  .setup{background:var(--card);border:1.5px solid var(--hairline-strong);border-radius:18px;padding:22px;}
   .setup h2{font-size:16px;margin:0 0 6px;}
-  .setup p{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 14px;}
-  .setup label{font-size:12px;font-weight:800;color:var(--muted);display:block;margin:12px 0 4px;}
-  .setup input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #E5DFF0;font-size:14px;}
-  .setup a{color:var(--purple-dark);font-weight:800;}
-  .status-msg{font-size:13px;margin-top:10px;color:var(--coral-dark);min-height:16px;}
+  .setup p{font-size:13px;color:var(--muted);line-height:1.55;margin:0 0 16px;}
+  .setup label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin:14px 0 5px;}
+  .setup input{width:100%;padding:10px 12px;border-radius:8px;border:1.5px solid var(--hairline);font-size:14px;background:var(--paper);color:var(--ink);}
+  .setup input:focus{border-color:var(--ink);}
+  .status-msg{font-size:13px;margin-top:10px;color:var(--muted);min-height:16px;}
 
-  .hero{background:var(--purple);border-radius:28px;padding:24px;color:white;position:relative;overflow:hidden;margin-bottom:18px;}
-  .hero .label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;opacity:.85;}
-  .hero .title{font-size:22px;margin:6px 0 2px;}
-  .hero .countdown{font-size:44px;margin-top:10px;}
-  .hero .sub{font-size:13px;opacity:.85;margin-top:2px;}
-  .mascot-wrap{position:absolute;right:-6px;bottom:-6px;width:96px;height:96px;}
+  .hero{
+    background:var(--card);border:2px solid var(--hairline-strong);border-radius:20px;
+    padding:24px;position:relative;overflow:hidden;margin-bottom:20px;
+  }
+  .hero .label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
+  .hero .title{font-size:21px;margin:8px 0 2px;padding-right:70px;}
+  .hero .countdown{font-size:46px;margin-top:8px;font-variant-numeric:tabular-nums;}
+  .hero .sub{font-size:13px;color:var(--muted);margin-top:2px;}
+  .mascot-wrap{position:absolute;right:18px;top:20px;}
 
-  .card{background:var(--card);border-radius:20px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:12px;box-shadow:0 2px 0 rgba(0,0,0,0.04);}
-  .card .dot{width:44px;height:44px;border-radius:14px;background:var(--yellow);flex:none;display:flex;align-items:center;justify-content:center;font-size:20px;}
-  .card .info{flex:1;}
-  .card .info .t{font-weight:800;font-size:15px;}
+  .card{
+    background:var(--card);border:1.5px solid var(--hairline);border-radius:16px;
+    padding:15px 16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;
+  }
+  .card .dot{
+    width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);flex:none;
+  }
+  .card .info{flex:1;min-width:0;}
+  .card .info .t{font-weight:700;font-size:15px;}
   .card .info .s{font-size:13px;color:var(--muted);}
-  .card .when{font-size:13px;font-weight:800;color:var(--purple-dark);white-space:nowrap;}
+  .card .when{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums;}
 
-  .section-label{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:22px 0 10px;}
+  .section-label{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:24px 0 10px;}
   .chips{display:flex;gap:8px;flex-wrap:wrap;}
-  .chip{border:none;background:white;color:var(--ink);padding:10px 16px;border-radius:999px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.04);}
-  .chip.active{background:var(--purple);color:white;}
-  .cta{width:100%;margin-top:8px;background:var(--purple);color:white;border:none;padding:14px;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 4px 0 var(--purple-dark);}
-  .cta:active{transform:translateY(2px);box-shadow:0 2px 0 var(--purple-dark);}
+  .chip{
+    border:1.5px solid var(--hairline-strong);background:var(--card);color:var(--ink);
+    padding:9px 15px;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;
+  }
+  .chip.active{background:var(--ink);color:var(--paper);}
+  .cta{
+    width:100%;margin-top:10px;background:var(--ink);color:var(--paper);border:none;
+    padding:14px;border-radius:12px;font-weight:800;font-size:15px;cursor:pointer;
+  }
+  .cta:active{opacity:.8;}
   .empty{font-size:13px;color:var(--muted);padding:8px 2px;}
 
-  .overlay{position:fixed;inset:0;background:var(--coral);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:white;z-index:1000;padding:24px;}
+  .overlay{
+    position:fixed;inset:0;background:var(--ink);display:none;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;color:var(--paper);
+    z-index:1000;padding:24px;
+  }
   .overlay.show{display:flex;}
-  .overlay .big-mascot{width:180px;height:180px;margin-bottom:12px;}
-  .overlay .ev-title{font-size:30px;margin:6px 0 4px;}
-  .overlay .ev-sub{font-size:16px;opacity:.9;margin-bottom:28px;}
+  .overlay .big-mascot{margin-bottom:14px;}
+  .overlay .ev-title{font-size:28px;margin:6px 0 4px;}
+  .overlay .ev-sub{font-size:15px;color:#B8B2A0;margin-bottom:30px;}
   .overlay-btns{display:flex;gap:12px;width:100%;max-width:320px;}
-  .overlay-btns button{flex:1;padding:16px 10px;border-radius:16px;border:none;font-weight:800;font-size:15px;cursor:pointer;}
-  .btn-snooze{background:rgba(255,255,255,0.2);color:white;}
-  .btn-gotit{background:white;color:var(--coral-dark);box-shadow:0 4px 0 rgba(0,0,0,0.15);}
-  .btn-gotit:active{transform:translateY(2px);box-shadow:none;}
+  .overlay-btns button{flex:1;padding:15px 10px;border-radius:12px;border:1.5px solid var(--paper);font-weight:800;font-size:15px;cursor:pointer;}
+  .btn-snooze{background:transparent;color:var(--paper);}
+  .btn-gotit{background:var(--paper);color:var(--ink);}
+  .btn-gotit:active,.btn-snooze:active{opacity:.75;}
 
-  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-  @keyframes bounceBig{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-14px) scale(1.04);}}
-  .bob{animation:bob 1.6s ease-in-out infinite;}
-  .bounceBig{animation:bounceBig 0.9s ease-in-out infinite;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+  @keyframes bounceBig{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-12px) scale(1.03);}}
+  .bob{animation:bob 2.2s ease-in-out infinite;}
+  .bounceBig{animation:bounceBig 1s ease-in-out infinite;}
   .hidden{display:none !important;}
+  @media (prefers-reduced-motion: reduce){
+    .bob,.bounceBig{animation:none;}
+  }
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="dog-idle" viewBox="0 0 100 100">
+      <ellipse cx="21" cy="60" rx="13" ry="21" transform="rotate(-18 21 60)" fill="none" stroke="currentColor" stroke-width="4"/>
+      <ellipse cx="79" cy="60" rx="13" ry="21" transform="rotate(18 79 60)" fill="none" stroke="currentColor" stroke-width="4"/>
+      <path d="M77,50 A10,10 0 0 1 73.4,63.5 A10,10 0 0 1 63.5,73.4 A10,10 0 0 1 50,77 A10,10 0 0 1 36.5,73.4 A10,10 0 0 1 26.6,63.5 A10,10 0 0 1 23,50 A10,10 0 0 1 26.6,36.5 A10,10 0 0 1 36.5,26.6 A10,10 0 0 1 50,23 A10,10 0 0 1 63.5,26.6 A10,10 0 0 1 73.4,36.5 A10,10 0 0 1 77,50 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M38,52 Q42,57 46,52" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M54,52 Q58,57 62,52" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
+      <ellipse cx="50" cy="60" rx="3.4" ry="2.6" fill="currentColor"/>
+      <path d="M45,65 Q50,69 55,65" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="dog-alert" viewBox="0 0 100 100">
+      <ellipse cx="21" cy="60" rx="13" ry="21" transform="rotate(-18 21 60)" fill="none" stroke="currentColor" stroke-width="4"/>
+      <ellipse cx="79" cy="60" rx="13" ry="21" transform="rotate(18 79 60)" fill="none" stroke="currentColor" stroke-width="4"/>
+      <path d="M77,50 A10,10 0 0 1 73.4,63.5 A10,10 0 0 1 63.5,73.4 A10,10 0 0 1 50,77 A10,10 0 0 1 36.5,73.4 A10,10 0 0 1 26.6,63.5 A10,10 0 0 1 23,50 A10,10 0 0 1 26.6,36.5 A10,10 0 0 1 36.5,26.6 A10,10 0 0 1 50,23 A10,10 0 0 1 63.5,26.6 A10,10 0 0 1 73.4,36.5 A10,10 0 0 1 77,50 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+      <circle cx="42" cy="53" r="3.6" fill="currentColor"/>
+      <circle cx="58" cy="53" r="3.6" fill="currentColor"/>
+      <ellipse cx="50" cy="59" rx="3" ry="2.2" fill="currentColor"/>
+      <ellipse cx="50" cy="69" rx="6" ry="7.5" fill="none" stroke="currentColor" stroke-width="3"/>
+    </symbol>
+  </defs>
+</svg>
+
 <div class="app">
   <div class="topbar">
     <div class="brand">
-      <svg width="30" height="30" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#7C5CFC"/><circle cx="21" cy="27" r="5" fill="white"/><circle cx="39" cy="27" r="5" fill="white"/><circle cx="21" cy="27" r="2.4" fill="#2B2640"/><circle cx="39" cy="27" r="2.4" fill="#2B2640"/><path d="M20 38 Q30 46 40 38" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
-      <span class="display">blip</span>
+      <svg class="icon-sm" viewBox="0 0 100 100"><use href="#dog-idle"/></svg>
+      <span class="display">blip<span class="mark">*</span></span>
     </div>
     <div class="clock" id="clock">--:--</div>
   </div>
@@ -94,7 +152,7 @@
       <div class="countdown display" id="hero-countdown">--:--</div>
       <div class="sub" id="hero-sub"></div>
       <div class="mascot-wrap bob">
-        <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#FFC93C"/><circle cx="21" cy="27" r="5" fill="#2B2640"/><circle cx="39" cy="27" r="5" fill="#2B2640"/><path d="M20 38 Q30 46 40 38" stroke="#2B2640" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+        <svg class="icon-hero" viewBox="0 0 100 100"><use href="#dog-idle"/></svg>
       </div>
     </div>
 
@@ -108,7 +166,7 @@
 
 <div class="overlay" id="overlay">
   <div class="big-mascot bounceBig">
-    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="white"/><ellipse cx="21" cy="26" rx="4.5" ry="6" fill="#E5503F"/><ellipse cx="39" cy="26" rx="4.5" ry="6" fill="#E5503F"/><path d="M20 40 Q30 34 40 40" stroke="#E5503F" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+    <svg class="icon-alert" viewBox="0 0 100 100"><use href="#dog-alert"/></svg>
   </div>
   <div class="ev-title display" id="ov-title">Event</div>
   <div class="ev-sub" id="ov-sub"></div>
@@ -163,7 +221,7 @@ function renderList(){
     const row = document.createElement("div");
     row.className = "card";
     row.innerHTML = `
-      <div class="dot">📅</div>
+      <div class="dot"></div>
       <div class="info">
         <div class="t"></div>
         <div class="s"></div>
