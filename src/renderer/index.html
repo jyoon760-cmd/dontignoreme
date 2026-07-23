@@ -104,29 +104,38 @@
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
-    <filter id="fur-grain" x="-15%" y="-15%" width="130%" height="130%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="6" result="noise"/>
-      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0" result="noiseA"/>
+    <filter id="fur-grain-dark" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" seed="6" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.42 0" result="noiseA"/>
       <feComposite in="noiseA" in2="SourceGraphic" operator="in"/>
     </filter>
+    <filter id="fur-grain-light" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="2" seed="13" result="noise2"/>
+      <feColorMatrix in="noise2" type="matrix" values="0 0 0 0 0.98  0 0 0 0 0.97  0 0 0 0 0.90  0 0 0 0.3 0" result="noise2A"/>
+      <feComposite in="noise2A" in2="SourceGraphic" operator="in"/>
+    </filter>
     <g id="mascot-fur">
-      <ellipse cx="21" cy="60" rx="13" ry="21" transform="rotate(-18 21 60)"/>
-      <ellipse cx="79" cy="60" rx="13" ry="21" transform="rotate(18 79 60)"/>
-      <path d="M77,50 A10,10 0 0 1 73.4,63.5 A10,10 0 0 1 63.5,73.4 A10,10 0 0 1 50,77 A10,10 0 0 1 36.5,73.4 A10,10 0 0 1 26.6,63.5 A10,10 0 0 1 23,50 A10,10 0 0 1 26.6,36.5 A10,10 0 0 1 36.5,26.6 A10,10 0 0 1 50,23 A10,10 0 0 1 63.5,26.6 A10,10 0 0 1 73.4,36.5 A10,10 0 0 1 77,50 Z"/>
+      <circle cx="27" cy="27" r="16"/>
+      <circle cx="75" cy="31" r="19"/>
+      <circle cx="50" cy="59" r="30"/>
     </g>
     <symbol id="dog-idle" viewBox="0 0 100 100">
       <g fill="var(--fur)"><use href="#mascot-fur"/></g>
-      <g fill="#000" filter="url(#fur-grain)"><use href="#mascot-fur"/></g>
-      <circle cx="40" cy="52" r="4.2" fill="var(--ink)"/>
-      <circle cx="60" cy="52" r="4.2" fill="var(--ink)"/>
-      <path d="M44,60 L44,68 L50,64 Z M56,60 L56,68 L50,64 Z" fill="var(--ink)"/>
+      <g fill="#000" filter="url(#fur-grain-light)"><use href="#mascot-fur"/></g>
+      <g fill="#000" filter="url(#fur-grain-dark)"><use href="#mascot-fur"/></g>
+      <ellipse cx="50" cy="59" rx="2.4" ry="3.4" fill="var(--paper)" opacity="0.8"/>
+      <circle cx="39" cy="54" r="4.3" fill="var(--ink)"/>
+      <circle cx="61" cy="54" r="4.3" fill="var(--ink)"/>
+      <path d="M44,63 L56,63 M50,63 L50,68 M50,68 L42,76 M50,68 L58,76" fill="none" stroke="var(--ink)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M38,82 Q50,90 62,82" fill="none" stroke="var(--paper)" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
     </symbol>
     <symbol id="dog-alert" viewBox="0 0 100 100">
       <g fill="var(--fur)"><use href="#mascot-fur"/></g>
-      <g fill="#000" filter="url(#fur-grain)"><use href="#mascot-fur"/></g>
-      <circle cx="39" cy="51" r="5.4" fill="var(--ink)"/>
-      <circle cx="61" cy="51" r="5.4" fill="var(--ink)"/>
-      <ellipse cx="50" cy="68" rx="6.5" ry="8" fill="var(--ink)"/>
+      <g fill="#000" filter="url(#fur-grain-light)"><use href="#mascot-fur"/></g>
+      <g fill="#000" filter="url(#fur-grain-dark)"><use href="#mascot-fur"/></g>
+      <circle cx="38" cy="53" r="5.6" fill="var(--ink)"/>
+      <circle cx="62" cy="53" r="5.6" fill="var(--ink)"/>
+      <ellipse cx="50" cy="72" rx="7" ry="9" fill="var(--ink)"/>
     </symbol>
   </defs>
 </svg>
