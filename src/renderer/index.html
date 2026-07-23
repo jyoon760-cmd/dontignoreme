@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blip</title>
+<style>
+  :root{
+    --cream:#FFF8EA; --ink:#2B2640; --purple:#7C5CFC; --purple-dark:#5C3FE0;
+    --yellow:#FFC93C; --coral:#FF6F61; --coral-dark:#E5503F; --muted:#948C9E; --card:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Nunito","Segoe UI",system-ui,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+  .display{font-family:"Baloo 2","Nunito",system-ui,sans-serif;font-weight:800;}
+  .app{max-width:420px;margin:0 auto;padding:24px 20px 40px;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+  .brand{display:flex;align-items:center;gap:8px;}
+  .brand .display{font-size:24px;color:var(--purple-dark);}
+  .clock{font-size:14px;color:var(--muted);font-weight:700;}
+
+  .setup{background:var(--card);border-radius:20px;padding:20px;box-shadow:0 2px 0 rgba(0,0,0,0.04);}
+  .setup h2{font-size:16px;margin:0 0 6px;}
+  .setup p{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 14px;}
+  .setup label{font-size:12px;font-weight:800;color:var(--muted);display:block;margin:12px 0 4px;}
+  .setup input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #E5DFF0;font-size:14px;}
+  .setup a{color:var(--purple-dark);font-weight:800;}
+  .status-msg{font-size:13px;margin-top:10px;color:var(--coral-dark);min-height:16px;}
+
+  .hero{background:var(--purple);border-radius:28px;padding:24px;color:white;position:relative;overflow:hidden;margin-bottom:18px;}
+  .hero .label{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;opacity:.85;}
+  .hero .title{font-size:22px;margin:6px 0 2px;}
+  .hero .countdown{font-size:44px;margin-top:10px;}
+  .hero .sub{font-size:13px;opacity:.85;margin-top:2px;}
+  .mascot-wrap{position:absolute;right:-6px;bottom:-6px;width:96px;height:96px;}
+
+  .card{background:var(--card);border-radius:20px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-bottom:12px;box-shadow:0 2px 0 rgba(0,0,0,0.04);}
+  .card .dot{width:44px;height:44px;border-radius:14px;background:var(--yellow);flex:none;display:flex;align-items:center;justify-content:center;font-size:20px;}
+  .card .info{flex:1;}
+  .card .info .t{font-weight:800;font-size:15px;}
+  .card .info .s{font-size:13px;color:var(--muted);}
+  .card .when{font-size:13px;font-weight:800;color:var(--purple-dark);white-space:nowrap;}
+
+  .section-label{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:22px 0 10px;}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;}
+  .chip{border:none;background:white;color:var(--ink);padding:10px 16px;border-radius:999px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 2px 0 rgba(0,0,0,0.04);}
+  .chip.active{background:var(--purple);color:white;}
+  .cta{width:100%;margin-top:8px;background:var(--purple);color:white;border:none;padding:14px;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 4px 0 var(--purple-dark);}
+  .cta:active{transform:translateY(2px);box-shadow:0 2px 0 var(--purple-dark);}
+  .empty{font-size:13px;color:var(--muted);padding:8px 2px;}
+
+  .overlay{position:fixed;inset:0;background:var(--coral);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:white;z-index:1000;padding:24px;}
+  .overlay.show{display:flex;}
+  .overlay .big-mascot{width:180px;height:180px;margin-bottom:12px;}
+  .overlay .ev-title{font-size:30px;margin:6px 0 4px;}
+  .overlay .ev-sub{font-size:16px;opacity:.9;margin-bottom:28px;}
+  .overlay-btns{display:flex;gap:12px;width:100%;max-width:320px;}
+  .overlay-btns button{flex:1;padding:16px 10px;border-radius:16px;border:none;font-weight:800;font-size:15px;cursor:pointer;}
+  .btn-snooze{background:rgba(255,255,255,0.2);color:white;}
+  .btn-gotit{background:white;color:var(--coral-dark);box-shadow:0 4px 0 rgba(0,0,0,0.15);}
+  .btn-gotit:active{transform:translateY(2px);box-shadow:none;}
+
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+  @keyframes bounceBig{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-14px) scale(1.04);}}
+  .bob{animation:bob 1.6s ease-in-out infinite;}
+  .bounceBig{animation:bounceBig 0.9s ease-in-out infinite;}
+  .hidden{display:none !important;}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#7C5CFC"/><circle cx="21" cy="27" r="5" fill="white"/><circle cx="39" cy="27" r="5" fill="white"/><circle cx="21" cy="27" r="2.4" fill="#2B2640"/><circle cx="39" cy="27" r="2.4" fill="#2B2640"/><path d="M20 38 Q30 46 40 38" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+      <span class="display">blip</span>
+    </div>
+    <div class="clock" id="clock">--:--</div>
+  </div>
+
+  <div class="setup" id="setup">
+    <h2>Connect your Google Calendar</h2>
+    <p>Paste in the Client ID and Client Secret from your Google Cloud OAuth credentials (see README for the one-time setup steps).</p>
+    <label>Client ID</label>
+    <input id="client-id" placeholder="xxxxxxxx.apps.googleusercontent.com">
+    <label>Client secret</label>
+    <input id="client-secret" placeholder="GOCSPX-xxxxxxxx" type="password">
+    <button class="cta" id="connect-btn">Connect Google Calendar</button>
+    <div class="status-msg" id="status-msg"></div>
+  </div>
+
+  <div id="main-ui" class="hidden">
+    <div class="hero">
+      <div class="label">Up next</div>
+      <div class="title" id="hero-title">Nothing on your calendar</div>
+      <div class="countdown display" id="hero-countdown">--:--</div>
+      <div class="sub" id="hero-sub"></div>
+      <div class="mascot-wrap bob">
+        <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#FFC93C"/><circle cx="21" cy="27" r="5" fill="#2B2640"/><circle cx="39" cy="27" r="5" fill="#2B2640"/><path d="M20 38 Q30 46 40 38" stroke="#2B2640" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+
+    <div class="section-label">Alert me before events</div>
+    <div class="chips" id="lead-chips"></div>
+
+    <div class="section-label">Later</div>
+    <div id="event-list"><div class="empty">Syncing with Google Calendar…</div></div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="big-mascot bounceBig">
+    <svg viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="white"/><ellipse cx="21" cy="26" rx="4.5" ry="6" fill="#E5503F"/><ellipse cx="39" cy="26" rx="4.5" ry="6" fill="#E5503F"/><path d="M20 40 Q30 34 40 40" stroke="#E5503F" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+  </div>
+  <div class="ev-title display" id="ov-title">Event</div>
+  <div class="ev-sub" id="ov-sub"></div>
+  <div class="overlay-btns">
+    <button class="btn-snooze" id="snooze-btn">Snooze 5 min</button>
+    <button class="btn-gotit" id="gotit-btn">Got it!</button>
+  </div>
+</div>
+
+<script>
+const leadOptions = [5,10,15,30];
+let leadMinutes = 10;
+let events = [];
+let currentAlertEventId = null;
+
+function fmtClock(d){ return d.toLocaleTimeString([], {hour:"numeric", minute:"2-digit"}); }
+function fmtCountdown(ms){
+  if(ms<=0) return "0:00";
+  const totalSec = Math.floor(ms/1000);
+  const m = Math.floor(totalSec/60);
+  const s = totalSec%60;
+  return m + ":" + String(s).padStart(2,"0");
+}
+function relTime(ms){
+  const mins = Math.round(ms/60000);
+  if(mins < 1) return "starting now";
+  if(mins < 60) return "in " + mins + " min";
+  return "in " + Math.round(mins/60) + " hr";
+}
+
+function renderChips(){
+  const wrap = document.getElementById("lead-chips");
+  wrap.innerHTML = "";
+  leadOptions.forEach(m=>{
+    const b = document.createElement("button");
+    b.className = "chip" + (m===leadMinutes ? " active" : "");
+    b.textContent = m + " min";
+    b.onclick = ()=>{ leadMinutes = m; window.blip.setLeadMinutes(m); renderChips(); };
+    wrap.appendChild(b);
+  });
+}
+
+function renderList(){
+  const list = document.getElementById("event-list");
+  list.innerHTML = "";
+  const rest = events.slice(1);
+  if(rest.length === 0){
+    list.innerHTML = '<div class="empty">Nothing else coming up.</div>';
+    return;
+  }
+  rest.forEach(ev=>{
+    const row = document.createElement("div");
+    row.className = "card";
+    row.innerHTML = `
+      <div class="dot">📅</div>
+      <div class="info">
+        <div class="t"></div>
+        <div class="s"></div>
+      </div>
+      <div class="when"></div>`;
+    row.querySelector(".t").textContent = ev.title;
+    row.querySelector(".s").textContent = ev.detail || "";
+    row.querySelector(".when").textContent = fmtClock(new Date(ev.time));
+    list.appendChild(row);
+  });
+}
+
+function tickHero(){
+  document.getElementById("clock").textContent = fmtClock(new Date());
+  if(events.length === 0) return;
+  const next = events[0];
+  const remaining = next.time - Date.now();
+  document.getElementById("hero-title").textContent = next.title;
+  document.getElementById("hero-countdown").textContent = fmtCountdown(remaining);
+  document.getElementById("hero-sub").textContent = (next.detail ? next.detail + " · " : "") + relTime(remaining);
+}
+
+let audioCtx = null;
+function playSparkle(){
+  try{
+    if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if(audioCtx.state === "suspended") audioCtx.resume();
+    const notes = [1046.5, 1318.5, 1568.0, 2093.0, 2637.0];
+    const startAt = audioCtx.currentTime;
+    notes.forEach((freq, i)=>{
+      const t = startAt + i*0.075;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, t);
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.22, t + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start(t);
+      osc.stop(t + 0.55);
+    });
+  }catch(e){}
+}
+
+function showOverlay(ev){
+  currentAlertEventId = ev.id;
+  document.getElementById("ov-title").textContent = ev.title;
+  document.getElementById("ov-sub").textContent = (ev.detail ? ev.detail + " · " : "") + "starting now";
+  document.getElementById("overlay").classList.add("show");
+  playSparkle();
+}
+function hideOverlay(){ document.getElementById("overlay").classList.remove("show"); }
+
+document.getElementById("gotit-btn").onclick = ()=>{ window.blip.dismissAlert(); hideOverlay(); };
+document.getElementById("snooze-btn").onclick = ()=>{
+  window.blip.snoozeAlert(currentAlertEventId);
+  hideOverlay();
+};
+
+document.getElementById("connect-btn").onclick = async ()=>{
+  const clientId = document.getElementById("client-id").value.trim();
+  const clientSecret = document.getElementById("client-secret").value.trim();
+  const statusEl = document.getElementById("status-msg");
+  if(!clientId || !clientSecret){
+    statusEl.textContent = "Add both the Client ID and Client secret first.";
+    return;
+  }
+  statusEl.textContent = "Opening Google sign-in in your browser…";
+  try{
+    await window.blip.connectGoogle({ clientId, clientSecret });
+    document.getElementById("setup").classList.add("hidden");
+    document.getElementById("main-ui").classList.remove("hidden");
+  }catch(e){
+    statusEl.textContent = "Couldn't connect: " + e.message;
+  }
+};
+
+window.blip.onEventsUpdated((updated)=>{ events = updated; renderList(); tickHero(); });
+window.blip.onShowAlert((ev)=> showOverlay(ev));
+
+async function init(){
+  const state = await window.blip.getInitialState();
+  leadMinutes = state.leadMinutes || 10;
+  events = state.events || [];
+  renderChips();
+  if(state.connected){
+    document.getElementById("setup").classList.add("hidden");
+    document.getElementById("main-ui").classList.remove("hidden");
+    renderList();
+  }
+  tickHero();
+  setInterval(tickHero, 1000);
+}
+init();
+</script>
+
+</body>
+</html>
