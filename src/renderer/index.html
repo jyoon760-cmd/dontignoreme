@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Blip</title>
+<title>dim</title>
 <style>
   :root{
     --paper:#F7F4EB; --card:#FFFFFF; --ink:#18150F;
     --muted:#6E6656; --hairline:#E4DFCF; --hairline-strong:#18150F;
+    --fur:#E3A857;
   }
   *{box-sizing:border-box;}
   body{
@@ -15,20 +16,19 @@
     background:var(--paper);color:var(--ink);min-height:100vh;
     -webkit-font-smoothing:antialiased;
   }
-  .display{font-weight:800;letter-spacing:-0.01em;}
+  .display{font-family:ui-rounded,-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;font-weight:800;letter-spacing:-0.01em;}
   .app{max-width:420px;margin:0 auto;padding:28px 20px 40px;}
 
   *:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
 
   /* reusable mascot symbols */
-  .icon-sm{width:30px;height:30px;color:var(--ink);}
-  .icon-hero{width:80px;height:80px;color:var(--ink);}
-  .icon-alert{width:150px;height:150px;color:var(--paper);}
+  .icon-sm{width:32px;height:32px;}
+  .icon-hero{width:78px;height:78px;}
+  .icon-alert{width:150px;height:150px;}
 
   .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
-  .brand{display:flex;align-items:center;gap:9px;}
-  .brand .display{font-size:23px;}
-  .brand .mark{color:var(--muted);font-weight:400;font-size:16px;margin-left:1px;}
+  .brand{display:flex;align-items:center;gap:8px;}
+  .brand .display{font-size:24px;}
   .clock{font-size:13px;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums;}
 
   .setup{background:var(--card);border:1.5px solid var(--hairline-strong);border-radius:18px;padding:22px;}
@@ -104,23 +104,29 @@
 
 <svg width="0" height="0" style="position:absolute">
   <defs>
+    <filter id="fur-grain" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="6" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.4 0" result="noiseA"/>
+      <feComposite in="noiseA" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <g id="mascot-fur">
+      <ellipse cx="21" cy="60" rx="13" ry="21" transform="rotate(-18 21 60)"/>
+      <ellipse cx="79" cy="60" rx="13" ry="21" transform="rotate(18 79 60)"/>
+      <path d="M77,50 A10,10 0 0 1 73.4,63.5 A10,10 0 0 1 63.5,73.4 A10,10 0 0 1 50,77 A10,10 0 0 1 36.5,73.4 A10,10 0 0 1 26.6,63.5 A10,10 0 0 1 23,50 A10,10 0 0 1 26.6,36.5 A10,10 0 0 1 36.5,26.6 A10,10 0 0 1 50,23 A10,10 0 0 1 63.5,26.6 A10,10 0 0 1 73.4,36.5 A10,10 0 0 1 77,50 Z"/>
+    </g>
     <symbol id="dog-idle" viewBox="0 0 100 100">
-      <ellipse cx="21" cy="60" rx="13" ry="21" transform="rotate(-18 21 60)" fill="none" stroke="currentColor" stroke-width="4"/>
-      <ellipse cx="79" cy="60" rx="13" ry="21" transform="rotate(18 79 60)" fill="none" stroke="currentColor" stroke-width="4"/>
-      <path d="M77,50 A10,10 0 0 1 73.4,63.5 A10,10 0 0 1 63.5,73.4 A10,10 0 0 1 50,77 A10,10 0 0 1 36.5,73.4 A10,10 0 0 1 26.6,63.5 A10,10 0 0 1 23,50 A10,10 0 0 1 26.6,36.5 A10,10 0 0 1 36.5,26.6 A10,10 0 0 1 50,23 A10,10 0 0 1 63.5,26.6 A10,10 0 0 1 73.4,36.5 A10,10 0 0 1 77,50 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-      <path d="M38,52 Q42,57 46,52" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
-      <path d="M54,52 Q58,57 62,52" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>
-      <ellipse cx="50" cy="60" rx="3.4" ry="2.6" fill="currentColor"/>
-      <path d="M45,65 Q50,69 55,65" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+      <g fill="var(--fur)"><use href="#mascot-fur"/></g>
+      <g fill="#000" filter="url(#fur-grain)"><use href="#mascot-fur"/></g>
+      <circle cx="40" cy="52" r="4.2" fill="var(--ink)"/>
+      <circle cx="60" cy="52" r="4.2" fill="var(--ink)"/>
+      <path d="M44,60 L44,68 L50,64 Z M56,60 L56,68 L50,64 Z" fill="var(--ink)"/>
     </symbol>
     <symbol id="dog-alert" viewBox="0 0 100 100">
-      <ellipse cx="21" cy="60" rx="13" ry="21" transform="rotate(-18 21 60)" fill="none" stroke="currentColor" stroke-width="4"/>
-      <ellipse cx="79" cy="60" rx="13" ry="21" transform="rotate(18 79 60)" fill="none" stroke="currentColor" stroke-width="4"/>
-      <path d="M77,50 A10,10 0 0 1 73.4,63.5 A10,10 0 0 1 63.5,73.4 A10,10 0 0 1 50,77 A10,10 0 0 1 36.5,73.4 A10,10 0 0 1 26.6,63.5 A10,10 0 0 1 23,50 A10,10 0 0 1 26.6,36.5 A10,10 0 0 1 36.5,26.6 A10,10 0 0 1 50,23 A10,10 0 0 1 63.5,26.6 A10,10 0 0 1 73.4,36.5 A10,10 0 0 1 77,50 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
-      <circle cx="42" cy="53" r="3.6" fill="currentColor"/>
-      <circle cx="58" cy="53" r="3.6" fill="currentColor"/>
-      <ellipse cx="50" cy="59" rx="3" ry="2.2" fill="currentColor"/>
-      <ellipse cx="50" cy="69" rx="6" ry="7.5" fill="none" stroke="currentColor" stroke-width="3"/>
+      <g fill="var(--fur)"><use href="#mascot-fur"/></g>
+      <g fill="#000" filter="url(#fur-grain)"><use href="#mascot-fur"/></g>
+      <circle cx="39" cy="51" r="5.4" fill="var(--ink)"/>
+      <circle cx="61" cy="51" r="5.4" fill="var(--ink)"/>
+      <ellipse cx="50" cy="68" rx="6.5" ry="8" fill="var(--ink)"/>
     </symbol>
   </defs>
 </svg>
@@ -129,7 +135,7 @@
   <div class="topbar">
     <div class="brand">
       <svg class="icon-sm" viewBox="0 0 100 100"><use href="#dog-idle"/></svg>
-      <span class="display">blip<span class="mark">*</span></span>
+      <span class="display">dim.</span>
     </div>
     <div class="clock" id="clock">--:--</div>
   </div>
@@ -204,7 +210,7 @@ function renderChips(){
     const b = document.createElement("button");
     b.className = "chip" + (m===leadMinutes ? " active" : "");
     b.textContent = m + " min";
-    b.onclick = ()=>{ leadMinutes = m; window.blip.setLeadMinutes(m); renderChips(); };
+    b.onclick = ()=>{ leadMinutes = m; window.dim.setLeadMinutes(m); renderChips(); };
     wrap.appendChild(b);
   });
 }
@@ -276,9 +282,9 @@ function showOverlay(ev){
 }
 function hideOverlay(){ document.getElementById("overlay").classList.remove("show"); }
 
-document.getElementById("gotit-btn").onclick = ()=>{ window.blip.dismissAlert(); hideOverlay(); };
+document.getElementById("gotit-btn").onclick = ()=>{ window.dim.dismissAlert(); hideOverlay(); };
 document.getElementById("snooze-btn").onclick = ()=>{
-  window.blip.snoozeAlert(currentAlertEventId);
+  window.dim.snoozeAlert(currentAlertEventId);
   hideOverlay();
 };
 
@@ -292,7 +298,7 @@ document.getElementById("connect-btn").onclick = async ()=>{
   }
   statusEl.textContent = "Opening Google sign-in in your browser…";
   try{
-    await window.blip.connectGoogle({ clientId, clientSecret });
+    await window.dim.connectGoogle({ clientId, clientSecret });
     document.getElementById("setup").classList.add("hidden");
     document.getElementById("main-ui").classList.remove("hidden");
   }catch(e){
@@ -300,11 +306,11 @@ document.getElementById("connect-btn").onclick = async ()=>{
   }
 };
 
-window.blip.onEventsUpdated((updated)=>{ events = updated; renderList(); tickHero(); });
-window.blip.onShowAlert((ev)=> showOverlay(ev));
+window.dim.onEventsUpdated((updated)=>{ events = updated; renderList(); tickHero(); });
+window.dim.onShowAlert((ev)=> showOverlay(ev));
 
 async function init(){
-  const state = await window.blip.getInitialState();
+  const state = await window.dim.getInitialState();
   leadMinutes = state.leadMinutes || 10;
   events = state.events || [];
   renderChips();

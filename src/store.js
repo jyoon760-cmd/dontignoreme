@@ -3,7 +3,7 @@ const path = require('path');
 const { app, safeStorage } = require('electron');
 
 function dataFile() {
-  return path.join(app.getPath('userData'), 'blip-data.json');
+  return path.join(app.getPath('userData'), 'dim-data.json');
 }
 
 const DEFAULTS = { leadMinutes: 10, google: null };

@@ -41,13 +41,13 @@ async function getValidAccessToken() {
 }
 
 function sendEvents() {
-  if (mainWindow) mainWindow.webContents.send('blip:events-updated', currentEvents);
+  if (mainWindow) mainWindow.webContents.send('dim:events-updated', currentEvents);
 }
 
 function fireAlert(ev) {
   alertTimers.delete(ev.id);
   lastFiredEventId = ev.id;
-  if (mainWindow) mainWindow.webContents.send('blip:show-alert', ev);
+  if (mainWindow) mainWindow.webContents.send('dim:show-alert', ev);
   if (Notification.isSupported()) {
     new Notification({ title: ev.title, body: 'Starting now' + (ev.detail ? ` · ${ev.detail}` : '') }).show();
   }
@@ -90,7 +90,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 460,
     height: 760,
-    backgroundColor: '#FFF8EA',
+    backgroundColor: '#F7F4EB',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
@@ -100,13 +100,13 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 }
 
-ipcMain.handle('blip:get-initial-state', () => ({
+ipcMain.handle('dim:get-initial-state', () => ({
   connected: isConnected(),
   leadMinutes: data.leadMinutes,
   events: currentEvents,
 }));
 
-ipcMain.handle('blip:connect-google', async (_event, { clientId, clientSecret }) => {
+ipcMain.handle('dim:connect-google', async (_event, { clientId, clientSecret }) => {
   const tokens = await google.runOAuthLoopback({ clientId, clientSecret });
   data.google = {
     clientId,
@@ -120,17 +120,17 @@ ipcMain.handle('blip:connect-google', async (_event, { clientId, clientSecret })
   return { ok: true };
 });
 
-ipcMain.on('blip:set-lead-minutes', (_event, minutes) => {
+ipcMain.on('dim:set-lead-minutes', (_event, minutes) => {
   data.leadMinutes = minutes;
   store.save(data);
   scheduleAlerts(currentEvents);
 });
 
-ipcMain.on('blip:dismiss-alert', () => {
+ipcMain.on('dim:dismiss-alert', () => {
   if (lastFiredEventId) dismissedEventIds.add(lastFiredEventId);
 });
 
-ipcMain.on('blip:snooze-alert', (_event, eventId) => {
+ipcMain.on('dim:snooze-alert', (_event, eventId) => {
   if (!eventId) return;
   dismissedEventIds.delete(eventId);
   const timer = setTimeout(() => {
