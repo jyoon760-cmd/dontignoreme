@@ -1,0 +1,806 @@
+<!--
+  Source for docs/spec.html. Edit this file, then regenerate:
+    python3 docs/build-spec.py
+  The build step swaps the FONTS marker at the top of the stylesheet for
+  base64 font-face rules (Gochi Hand + Nunito), since the artifact host
+  blocks external font CDNs.
+-->
+<title>InvolveMe — Spec</title>
+<style>
+/*FONTS*/
+
+:root{
+  --paper:#F4EFE4; --card:#FBF6EA; --sunk:#EDE6D6;
+  --ink:#2B2620; --muted:#6B6255; --faint:#8A8071;
+  --line:rgba(43,38,32,.16); --line-hard:#2B2620;
+  --plum:#5B4B8A; --coral:#E8654B; --indigo:#4F47A0;
+  --mustard:#C08E14; --sage:#5F7154; --navy:#1B1550;
+  --accent:var(--plum);
+  --shadow:0 14px 34px rgba(43,38,32,.13);
+  --r-card:20px; --r-pill:999px;
+  --step:clamp(1rem,.85rem + .6vw,1.15rem);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#16122B; --card:#1E1940; --sunk:#120F24;
+    --ink:#F2ECDD; --muted:#B3AAC9; --faint:#8D85A6;
+    --line:rgba(242,236,221,.18); --line-hard:rgba(242,236,221,.65);
+    --plum:#A79BE0; --coral:#FF8B6E; --indigo:#9C93E8;
+    --mustard:#F0CB74; --sage:#A3B795; --navy:#C9BFE8;
+    --shadow:0 14px 34px rgba(0,0,0,.42);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#16122B; --card:#1E1940; --sunk:#120F24;
+  --ink:#F2ECDD; --muted:#B3AAC9; --faint:#8D85A6;
+  --line:rgba(242,236,221,.18); --line-hard:rgba(242,236,221,.65);
+  --plum:#A79BE0; --coral:#FF8B6E; --indigo:#9C93E8;
+  --mustard:#F0CB74; --sage:#A3B795; --navy:#C9BFE8;
+  --shadow:0 14px 34px rgba(0,0,0,.42);
+}
+:root[data-theme="light"]{
+  --paper:#F4EFE4; --card:#FBF6EA; --sunk:#EDE6D6;
+  --ink:#2B2620; --muted:#6B6255; --faint:#8A8071;
+  --line:rgba(43,38,32,.16); --line-hard:#2B2620;
+  --plum:#5B4B8A; --coral:#E8654B; --indigo:#4F47A0;
+  --mustard:#C08E14; --sage:#5F7154; --navy:#1B1550;
+  --shadow:0 14px 34px rgba(43,38,32,.13);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Nunito,ui-sans-serif,system-ui,sans-serif;
+  font-size:var(--step); line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1020px;margin:0 auto;padding:0 24px 96px}
+.wrap.top{padding-bottom:0}
+
+/* ---- masthead ---- */
+.masthead{padding:56px 0 30px;display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-size:.72rem;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+h1{
+  margin:0;font-family:'Gochi Hand',cursive;font-weight:400;
+  font-size:clamp(2.6rem,1.6rem + 4vw,4.1rem);line-height:.98;
+  text-wrap:balance;color:var(--ink);
+}
+h1 em{font-style:normal;color:var(--plum)}
+.deck{margin:0;max-width:62ch;font-size:1.08rem;color:var(--muted);text-wrap:pretty}
+.sourced{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;
+}
+.sourced span{
+  font-size:.74rem;font-weight:700;color:var(--muted);
+  border:1.5px solid var(--line);border-radius:var(--r-pill);padding:4px 12px;
+}
+
+/* ---- tabs ---- */
+.tabbar{
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb,var(--paper) 92%,transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:2px solid var(--line);
+  margin-bottom:40px;
+}
+.tabbar .inner{
+  max-width:1020px;margin:0 auto;padding:12px 24px;
+  display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;
+}
+.tabbar .inner::-webkit-scrollbar{display:none}
+.tab{
+  flex:none;font:inherit;font-weight:800;font-size:.94rem;
+  color:var(--muted);background:transparent;
+  border:2px solid var(--line);border-radius:var(--r-pill);
+  padding:9px 20px;cursor:pointer;white-space:nowrap;
+  transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+.tab:hover{border-color:var(--line-hard);color:var(--ink)}
+.tab:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.tab[aria-selected="true"]{
+  background:var(--tabc);border-color:var(--tabc);color:var(--card);
+}
+.tab .n{opacity:.6;font-weight:700;margin-right:8px;font-variant-numeric:tabular-nums}
+
+.panel{display:none;flex-direction:column;gap:52px}
+.panel.on{display:flex;animation:rise .32s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ---- sections ---- */
+section{display:flex;flex-direction:column;gap:18px}
+h2{
+  margin:0;font-family:'Gochi Hand',cursive;font-weight:400;
+  font-size:clamp(1.9rem,1.4rem + 1.6vw,2.5rem);line-height:1.05;
+  color:var(--ink);text-wrap:balance;
+  display:flex;align-items:baseline;gap:14px;
+}
+h2::after{content:"";flex:1;height:2px;background:var(--line)}
+h3{
+  margin:0;font-size:1rem;font-weight:800;
+  letter-spacing:.02em;color:var(--ink);
+}
+p{margin:0;max-width:70ch;text-wrap:pretty}
+p.lede{font-size:1.06rem}
+a{color:var(--accent);text-underline-offset:3px}
+strong{font-weight:800}
+code,.mono{
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-size:.86em;
+}
+code{background:var(--sunk);border-radius:6px;padding:.1em .4em}
+
+/* ---- generic blocks ---- */
+.card{
+  background:var(--card);border:2px solid var(--line);
+  border-radius:var(--r-card);padding:22px 24px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(270px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+
+ul.plain{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:7px;max-width:70ch}
+ul.plain li::marker{color:var(--accent)}
+ol.steps{
+  margin:0;padding:0;list-style:none;counter-reset:s;
+  display:flex;flex-direction:column;gap:0;
+}
+ol.steps li{
+  counter-increment:s;display:grid;
+  grid-template-columns:44px 1fr;gap:16px;
+  padding:16px 0;border-top:2px solid var(--line);
+}
+ol.steps li:last-child{border-bottom:2px solid var(--line)}
+ol.steps li::before{
+  content:counter(s);
+  font-family:'Gochi Hand',cursive;font-size:1.7rem;line-height:1;
+  color:var(--accent);padding-top:2px;
+}
+ol.steps b{display:block;font-weight:800}
+ol.steps span{color:var(--muted);font-size:.95rem}
+
+/* ---- tables ---- */
+.scroll{overflow-x:auto;border:2px solid var(--line);border-radius:var(--r-card)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:.94rem}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{
+  background:var(--sunk);font-size:.7rem;font-weight:800;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--faint);
+  border-bottom:2px solid var(--line);position:sticky;top:0;
+}
+tbody tr:last-child td{border-bottom:none}
+td.mono{font-size:.82rem}
+td b{font-weight:800}
+
+/* ---- pills / state ---- */
+.pill{
+  display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:var(--r-pill);padding:3px 11px;border:1.5px solid currentColor;
+}
+.p-done{color:var(--sage)}
+.p-build{color:var(--coral)}
+.p-later{color:var(--faint)}
+.p-open{color:var(--mustard)}
+
+/* ---- swatches ---- */
+.swatches{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.sw{border:2px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card)}
+.sw .chip{height:56px}
+.sw .meta{padding:9px 12px;display:flex;flex-direction:column;gap:1px}
+.sw .name{font-size:.8rem;font-weight:800}
+.sw .hex{font-family:ui-monospace,Menlo,monospace;font-size:.72rem;color:var(--faint)}
+.sw .use{font-size:.72rem;color:var(--muted);line-height:1.35}
+
+/* ---- ladder (signature) ---- */
+.ladder{
+  display:grid;gap:0;grid-template-columns:repeat(5,1fr);
+  border:2px solid var(--line);border-radius:var(--r-card);
+  overflow:hidden;background:var(--card);
+}
+.rung{
+  padding:18px 12px 16px;display:flex;flex-direction:column;
+  align-items:center;gap:9px;text-align:center;
+  border-right:2px solid var(--line);
+}
+.rung:last-child{border-right:none}
+.rung.dark{background:var(--navy-fill,#1B1550)}
+.rung .when{font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.rung .mood{font-family:'Gochi Hand',cursive;font-size:1.25rem;line-height:1.1;color:var(--ink)}
+.rung .where{font-size:.74rem;color:var(--muted);line-height:1.35}
+.rung.dark .mood{color:#FBF6EA}
+.rung.dark .where{color:#C9BFE8}
+.rung.dark .when{color:#A79BE0}
+.rung svg{display:block;flex:none}
+.rung .txt{display:flex;flex-direction:column;gap:3px}
+@media (max-width:640px){
+  .ladder{grid-template-columns:1fr}
+  .rung{border-right:none;border-bottom:2px solid var(--line);flex-direction:row;text-align:left;align-items:center;gap:14px}
+  .rung:last-child{border-bottom:none}
+}
+
+/* ---- quotes ---- */
+.say{
+  font-family:'Gochi Hand',cursive;font-size:1.35rem;line-height:1.3;
+  color:var(--ink);background:var(--card);
+  border:2px solid var(--line-hard);border-radius:var(--r-card);
+  padding:14px 20px;position:relative;max-width:44ch;
+}
+.dodont{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.dd{border:2px solid var(--line);border-radius:var(--r-card);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.dd .lab{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.dd.yes .lab{color:var(--sage)}
+.dd.no .lab{color:var(--coral)}
+.dd q{font-family:'Gochi Hand',cursive;font-size:1.1rem;quotes:'"' '"';display:block}
+.dd small{color:var(--muted);font-size:.84rem;line-height:1.45}
+
+/* ---- flow diagram ---- */
+.flow{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));align-items:stretch}
+.node{
+  border:2px solid var(--line-hard);border-radius:var(--r-card);
+  padding:16px 18px;background:var(--card);
+  display:flex;flex-direction:column;gap:8px;
+}
+.node .role{font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--plum)}
+.node .file{font-family:ui-monospace,Menlo,monospace;font-size:.8rem;font-weight:700}
+.node ul{margin:0;padding-left:1.05em;font-size:.85rem;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+
+/* ---- callout ---- */
+.note{
+  border-left:4px solid var(--accent);background:var(--sunk);
+  border-radius:0 14px 14px 0;padding:14px 18px;
+  display:flex;flex-direction:column;gap:6px;max-width:72ch;
+}
+.note .lab{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.note p{font-size:.94rem}
+
+pre{
+  margin:0;background:var(--sunk);border:2px solid var(--line);
+  border-radius:var(--r-card);padding:16px 18px;overflow-x:auto;
+  font-family:ui-monospace,Menlo,monospace;font-size:.8rem;line-height:1.6;
+}
+pre .k{color:var(--plum);font-weight:700}
+pre .s{color:var(--sage);font-weight:700}
+pre .c{color:var(--faint)}
+
+footer{
+  margin-top:64px;padding-top:22px;border-top:2px solid var(--line);
+  font-size:.84rem;color:var(--faint);display:flex;flex-wrap:wrap;gap:8px 20px;
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
+</style>
+
+<div class="wrap top">
+  <header class="masthead">
+    <div class="eyebrow">Product spec · v0.1 draft · 4 Aug 2026</div>
+    <h1>InvolveMe — a calendar companion that <em>refuses</em> to be ignored.</h1>
+    <p class="deck">A desktop app that watches your Google Calendar and, when something is close, takes the whole screen. No banner to swipe away. A small character shows up, visibly excited to be part of your day, and stays until you acknowledge it.</p>
+    <div class="sourced">
+      <span>Source: design doc v1</span>
+      <span>Source: web dashboard mockups (turn 1)</span>
+      <span>Source: shipped Electron build</span>
+    </div>
+  </header>
+</div>
+
+<nav class="tabbar">
+  <div class="inner" role="tablist" aria-label="Spec sections">
+    <button class="tab" role="tab" id="tab-product" aria-controls="panel-product" aria-selected="true"><span class="n">01</span>Product</button>
+    <button class="tab" role="tab" id="tab-design" aria-controls="panel-design" aria-selected="false" tabindex="-1"><span class="n">02</span>Design</button>
+    <button class="tab" role="tab" id="tab-tech" aria-controls="panel-tech" aria-selected="false" tabindex="-1"><span class="n">03</span>Tech</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ================= PRODUCT ================= -->
+<div class="panel on" id="panel-product" role="tabpanel" aria-labelledby="tab-product" style="--accent:var(--plum)">
+
+  <section>
+    <h2>The bet</h2>
+    <p class="lede">Reminder apps fail at the last mile: the notification arrives, you dismiss it reflexively, and you're still late. InvolveMe replaces the dismissible banner with a <strong>full-screen takeover</strong> and gives the interruption a face — a slightly clingy, extremely earnest creature who takes your calendar personally.</p>
+    <p>The emotional hook is the product. A generic reminder that seizes your screen is hostile; a small creature who is <em>excited you're about to hang out</em> earns the same interruption. Every decision below should reinforce that the character has feelings about your schedule.</p>
+  </section>
+
+  <section>
+    <h2>Who it's for</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Primary — the chronically late knowledge worker</h3>
+        <p style="font-size:.94rem;color:var(--muted)">Works heads-down on one screen, has 3–6 calendar events a day, and misses the first five minutes of most of them. Already gets calendar notifications and has learned to ignore them.</p>
+      </div>
+      <div class="card">
+        <h3>Not for</h3>
+        <p style="font-size:.94rem;color:var(--muted)">Teams, shared calendars, or scheduling. InvolveMe never creates, edits, or deletes an event — read-only, single user, one machine. It is a nudge layer, not a calendar.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Three principles</h2>
+    <ul class="plain">
+      <li><b>Quiet home, loud alert.</b> The everyday screens are calm and cream. All the boldness is spent on the takeover. If the home screen competes, the takeover stops landing.</li>
+      <li><b>Eager, never guilt-trippy.</b> The companion is excited to see you, not disappointed in you. It may pout; it may never scold.</li>
+      <li><b>Acknowledgement is the unit of success</b>, not delivery. A notification that fired but wasn't answered is a failed notification.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>The loop</h2>
+    <ol class="steps">
+      <li><b>Connect</b><span>One-time Google OAuth, read-only calendar scope. Credentials stay on the machine.</span></li>
+      <li><b>Between events</b><span>Home shows next-up with a live countdown, the rest of today as color-blocked cards, and the companion idling at its calmest mood.</span></li>
+      <li><b>Escalate</b><span>As the event approaches, the companion walks a color-and-mood ramp — sage → mustard → coral. Ambient, still ignorable.</span></li>
+      <li><b>Take over</b><span>At the user's lead time, the app seizes the full screen: giant countdown, event title, companion at full scale, one line of character voice, chime.</span></li>
+      <li><b>Answer</b><span>Two choices only. Acknowledge (dismisses for that event, awards points) or defer (returns in 5 minutes). There is no third exit.</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Scope</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Capability</th><th>State</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><b>Google Calendar sync</b></td><td><span class="pill p-done">Shipped</span></td><td>60s poll, read-only scope, loopback OAuth, encrypted at rest.</td></tr>
+          <tr><td><b>Lead-time setting</b></td><td><span class="pill p-done">Shipped</span></td><td>Free minutes value; spec calls for 5 / 10 / 15 / 30 chips.</td></tr>
+          <tr><td><b>Alert + acknowledge + 5-min defer</b></td><td><span class="pill p-done">Shipped</span></td><td>Fires in-window today, not full-screen. See Tech → Gaps.</td></tr>
+          <tr><td><b>Full-screen takeover</b></td><td><span class="pill p-build">v1</span></td><td>The signature screen. Currently the largest gap between spec and build.</td></tr>
+          <tr><td><b>Home dashboard</b></td><td><span class="pill p-build">v1</span></td><td>Next-up card, rest-of-today stack, day timeline, companion + speech bubble.</td></tr>
+          <tr><td><b>Mood ramp</b></td><td><span class="pill p-build">v1</span></td><td>One shape, five moods, driven by time-to-event. Art exists as a component.</td></tr>
+          <tr><td><b>Companion picker</b></td><td><span class="pill p-build">v1</span></td><td>Four characters at different insistence levels. Points and streak follow the user across swaps.</td></tr>
+          <tr><td><b>Points &amp; streak</b></td><td><span class="pill p-open">Undecided</span></td><td>Appears in the mockups, absent from the design doc. See open decisions.</td></tr>
+          <tr><td><b>Sound on/off, reduce-motion</b></td><td><span class="pill p-build">v1</span></td><td>Accessibility requirement, not a nicety — the takeover must be answerable without sound or motion.</td></tr>
+          <tr><td><b>Custom companion art / naming</b></td><td><span class="pill p-later">Later</span></td><td>Stretch goal in the design doc.</td></tr>
+          <tr><td><b>Multi-calendar, mobile, teams</b></td><td><span class="pill p-later">Later</span></td><td>Explicitly out of scope for v1.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Open decisions</h2>
+    <p>The design doc and the dashboard mockups disagree in six places. Each needs a call before build.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th style="width:20%">Question</th><th>The conflict</th><th style="width:30%">Recommendation</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>Points &amp; streak</b></td>
+            <td>Mockups show a points total, a 9-day streak, status tiers (Sleepy Susan → Warming Up → Reliable Regular → Go-Getter), and <code>+10</code> on acknowledge. The design doc never mentions scoring.</td>
+            <td>Ship it, but keep it in the header only. A score that follows you into the takeover turns an emotional appeal into a chore.</td>
+          </tr>
+          <tr>
+            <td><b>One companion or four</b></td>
+            <td>Doc specifies a single mascot ("Bud") with customization as a stretch goal. Mockups ship a picker with four named characters at nag levels 1–5.</td>
+            <td>Four. Choosing a companion is the strongest first-run moment we have, and one shape recolored costs nothing to produce.</td>
+          </tr>
+          <tr>
+            <td><b>Button copy</b></td>
+            <td>Three variants exist: "Got it!" / "Snooze 5 min" (doc), "I'm here" / "I'll get to it" (1d), "I'm on my way" / "I'll get to it" (1c). The doc's own rule says buttons must say exactly what they do.</td>
+            <td>"I'm on my way" / "Remind me in 5". Keeps the character's voice on the primary action, keeps the promise explicit on the secondary.</td>
+          </tr>
+          <tr>
+            <td><b>How much pout</b></td>
+            <td>"Never guilt-trippy" vs. the mockup's deferred response: an upset face and <q>...fine. Five minutes.</q></td>
+            <td>Allow the pout, gate it: neutral on the first defer, pouty only from the second on the same event. Never on a dismissal.</td>
+          </tr>
+          <tr>
+            <td><b>Companion voice lines</b></td>
+            <td>The "Umma" sample line (a joke about DMing Taylor Swift) is off-archetype for a strict character and won't age.</td>
+            <td>Rewrite. Every companion needs 8–12 lines per mood, scoped to the archetype, no topical references.</td>
+          </tr>
+          <tr>
+            <td><b>Nag level</b></td>
+            <td>Picker shows a 1–5 dot rating per companion. Nothing defines what it changes.</td>
+            <td>Bind it to one variable only — how many times a deferred alert returns before it stops. Dog = 5, Gentle = 1.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Success signals</h2>
+    <div class="grid g3">
+      <div class="card"><h3>Acknowledgement rate</h3><p style="font-size:.9rem;color:var(--muted)">Takeovers answered ÷ takeovers fired. The core metric. Target &gt;90% — a takeover that gets waited out is a bug.</p></div>
+      <div class="card"><h3>Defer-to-acknowledge ratio</h3><p style="font-size:.9rem;color:var(--muted)">Rising defers means the lead time is wrong for that user, not that the user is failing.</p></div>
+      <div class="card"><h3>Day-7 retention</h3><p style="font-size:.9rem;color:var(--muted)">The honest test of whether an app that hijacks your screen is welcome. Uninstall is the loudest possible signal.</p></div>
+    </div>
+    <div class="note">
+      <div class="lab">Watch for</div>
+      <p>The failure mode is <em>habituation</em> — the takeover becomes the new banner and gets clicked through without reading. If acknowledgement rate stays high while on-time arrival drops, the interruption has stopped working and no amount of extra volume will fix it.</p>
+    </div>
+  </section>
+</div>
+
+<!-- ================= DESIGN ================= -->
+<div class="panel" id="panel-design" role="tabpanel" aria-labelledby="tab-design" style="--accent:var(--coral)">
+
+  <section>
+    <h2>Two visual worlds</h2>
+    <p class="lede">The everyday UI stays calm, cream, and quiet. The takeover is saturated navy at full volume. The contrast between them <em>is</em> the product, so the two should not feel like the same app with a different background — they should feel like a room and a spotlight.</p>
+    <div class="grid g2">
+      <div class="card" style="background:#F4EFE4;border-color:#2B2620;color:#2B2620">
+        <div class="eyebrow" style="color:#8A8071">Calm mode</div>
+        <p style="font-family:'Gochi Hand',cursive;font-size:1.5rem;line-height:1.15;color:#2B2620">Hand-wobbled linework, cream ground, crayon-box accents. Home, settings, empty states.</p>
+      </div>
+      <div class="card" style="background:#1B1550;border-color:#1B1550;color:#FBF6EA">
+        <div class="eyebrow" style="color:#A79BE0">Alert mode</div>
+        <p style="font-family:'Gochi Hand',cursive;font-size:1.5rem;line-height:1.15;color:#FBF6EA">Radial glow, huge marker type, one creature at full scale. The takeover only.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The escalation ladder</h2>
+    <p>One shape, five moods. Nothing is redrawn between states — only the body colour, the eyes, the mouth, and the arm pose change. This is the single thing InvolveMe should be remembered for.</p>
+    <div class="ladder">
+      <div class="rung">
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#7A8B6F" stroke="#2B2620" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g stroke="#2B2620" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M16 14h4M26 14h4"/><path d="M18 21q5 4 10 0"/></g></svg>
+        <div class="txt"><div class="when">Nothing soon</div><div class="mood">Idle</div><div class="where">Sage · eyes closed · gentle bob. Home screen, resting.</div></div>
+      </div>
+      <div class="rung">
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#E8B94B" stroke="#2B2620" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><rect x="32" y="18" width="6" height="16" rx="3" transform="rotate(28 35 26)"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g stroke="#2B2620" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M18 21q5 4 10 0"/></g><g fill="#2B2620"><circle cx="18" cy="14" r="2.4"/><circle cx="28" cy="14" r="2.4"/></g></svg>
+        <div class="txt"><div class="when">30–15 min</div><div class="mood">Heads up</div><div class="where">Mustard · eyes open · one arm waving. Home screen.</div></div>
+      </div>
+      <div class="rung">
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#FF6B4A" stroke="#2B2620" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><rect x="3" y="20" width="6" height="16" rx="3" transform="rotate(-34 6 28)"/><rect x="37" y="20" width="6" height="16" rx="3" transform="rotate(34 40 28)"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g fill="#2B2620"><ellipse cx="18" cy="13" rx="2.6" ry="3.2"/><ellipse cx="28" cy="13" rx="2.6" ry="3.2"/><ellipse cx="23" cy="21" rx="3.6" ry="3"/></g></svg>
+        <div class="txt"><div class="when">10–5 min</div><div class="mood">Excited</div><div class="where">Coral · bouncing · speech bubble appears. Home screen.</div></div>
+      </div>
+      <div class="rung dark" style="background:#1B1550">
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><circle cx="23" cy="24" r="23" fill="#8B7FE8" opacity=".28"/><g fill="#FF6B4A" stroke="#2B2620" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><rect x="2" y="18" width="6" height="17" rx="3" transform="rotate(-46 5 26)"/><rect x="38" y="18" width="6" height="17" rx="3" transform="rotate(46 41 26)"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g fill="#2B2620"><ellipse cx="18" cy="13" rx="2.8" ry="3.6"/><ellipse cx="28" cy="13" rx="2.8" ry="3.6"/><ellipse cx="23" cy="21" rx="4" ry="3.4"/></g></svg>
+        <div class="txt"><div class="when">Lead time</div><div class="mood">It's time</div><div class="where">Coral on navy · full-screen takeover · fastest bounce.</div></div>
+      </div>
+      <div class="rung">
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#E8B94B" stroke="#2B2620" stroke-width="2.4" transform="rotate(-3 23 26)"><rect x="12" y="28" width="22" height="20" rx="7"/><rect x="9" y="28" width="6" height="15" rx="3" transform="rotate(9 12 35)"/><rect x="31" y="28" width="6" height="15" rx="3" transform="rotate(-9 34 35)"/><ellipse cx="23" cy="18" rx="14" ry="13"/></g><g stroke="#2B2620" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M18 25q5-4 10 0"/></g><g fill="#2B2620"><circle cx="18" cy="16" r="2.4"/><circle cx="28" cy="16" r="2.4"/></g></svg>
+        <div class="txt"><div class="when">Deferred</div><div class="mood">Pouty</div><div class="where">Mustard · slumped · slow sway. Only on a repeat defer.</div></div>
+      </div>
+    </div>
+    <div class="note">
+      <div class="lab">Rule</div>
+      <p>Colour never carries urgency alone. The mouth shape, the arm pose, and the countdown number must each independently say how close the event is.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Colour</h2>
+    <h3>Calm — home, settings, lists</h3>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#F4EFE4"></div><div class="meta"><span class="name">cream-bg</span><span class="hex">#F4EFE4</span><span class="use">Primary background</span></div></div>
+      <div class="sw"><div class="chip" style="background:#FBF6EA"></div><div class="meta"><span class="name">card</span><span class="hex">#FBF6EA</span><span class="use">Raised surfaces, stage</span></div></div>
+      <div class="sw"><div class="chip" style="background:#2B2620"></div><div class="meta"><span class="name">ink</span><span class="hex">#2B2620</span><span class="use">Body text, all linework</span></div></div>
+      <div class="sw"><div class="chip" style="background:#5B4B8A"></div><div class="meta"><span class="name">plum</span><span class="hex">#5B4B8A</span><span class="use">Brand, next-up card, primary buttons</span></div></div>
+      <div class="sw"><div class="chip" style="background:#E8654B"></div><div class="meta"><span class="name">coral</span><span class="hex">#E8654B</span><span class="use">Urgency, "starts soon"</span></div></div>
+      <div class="sw"><div class="chip" style="background:#E8B94B"></div><div class="meta"><span class="name">mustard</span><span class="hex">#E8B94B</span><span class="use">Heads-up state, highlights</span></div></div>
+      <div class="sw"><div class="chip" style="background:#7A8B6F"></div><div class="meta"><span class="name">sage</span><span class="hex">#7A8B6F</span><span class="use">Idle, success, "all set"</span></div></div>
+    </div>
+    <h3 style="margin-top:12px">Alert — the takeover, and nothing else</h3>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#1B1550"></div><div class="meta"><span class="name">alert-navy</span><span class="hex">#1B1550</span><span class="use">Takeover ground</span></div></div>
+      <div class="sw"><div class="chip" style="background:#8B7FE8"></div><div class="meta"><span class="name">alert-glow</span><span class="hex">#8B7FE8</span><span class="use">Radial bloom behind the companion</span></div></div>
+      <div class="sw"><div class="chip" style="background:#FF6B4A"></div><div class="meta"><span class="name">alert-coral</span><span class="hex">#FF6B4A</span><span class="use">Companion at full urgency</span></div></div>
+      <div class="sw"><div class="chip" style="background:#FBCA01"></div><div class="meta"><span class="name">alert-gold</span><span class="hex">#FBCA01</span><span class="use">The countdown number only</span></div></div>
+      <div class="sw"><div class="chip" style="background:#FBF6EA"></div><div class="meta"><span class="name">alert-cream</span><span class="hex">#FBF6EA</span><span class="use">Text and primary button on navy</span></div></div>
+    </div>
+    <div class="note">
+      <div class="lab">Contrast debt</div>
+      <p>Two combinations fail WCAG AA at body size and must not be used for running text: <code>mustard #E8B94B</code> on cream (1.6:1) and <code>coral #E8654B</code> on cream (3.3:1). Both are fine as fills behind ink text or at display sizes — which is how the mockups use them. For small text on cream, darken to <code>#C08E14</code> and <code>#C4462C</code>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Type</h2>
+    <div class="grid g2">
+      <div class="card">
+        <h3>Gochi Hand — display</h3>
+        <p style="font-family:'Gochi Hand',cursive;font-size:2rem;line-height:1.1">Design review in 42 minutes</p>
+        <p style="font-size:.9rem;color:var(--muted)">Short bursts only: countdown, event titles, screen headlines, speech bubbles. Never a paragraph, never a label, never a button.</p>
+      </div>
+      <div class="card">
+        <h3>Nunito — UI &amp; body</h3>
+        <p style="font-size:1.15rem;font-weight:700">10:30 · Zoom · 45 min</p>
+        <p style="font-size:.9rem;color:var(--muted)">Everything else: lists, settings, buttons, timestamps, metadata. Weights 400 / 700 / 800 only. Bold and chunky so it reads from across a room.</p>
+      </div>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Role</th><th>Size</th><th>Face</th><th>Where</th></tr></thead>
+        <tbody>
+          <tr><td><b>Countdown</b></td><td class="mono">72–120px</td><td>Gochi Hand</td><td>Takeover only. Readable from across a room.</td></tr>
+          <tr><td><b>Headline</b></td><td class="mono">28–34px</td><td>Gochi Hand</td><td>Greetings, event titles, companion names.</td></tr>
+          <tr><td><b>Body</b></td><td class="mono">16–18px</td><td>Nunito 700</td><td>Event rows, buttons, settings.</td></tr>
+          <tr><td><b>Caption</b></td><td class="mono">13px</td><td>Nunito 400/800</td><td>Timestamps, eyebrow labels, helper text.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.94rem;color:var(--muted)">Four sizes app-wide. No in-between values — this is a glanceable app, not a reading app.</p>
+  </section>
+
+  <section>
+    <h2>Shape &amp; line</h2>
+    <ul class="plain">
+      <li><b>2px ink outline on everything.</b> Cards, buttons, the companion, speech bubbles. Slightly hand-traced, never a crisp hairline.</li>
+      <li><b>Radii:</b> cards <code>20px</code>, buttons and chips <code>999px</code>, the companion's own silhouette organic and asymmetric — no sharp corners anywhere.</li>
+      <li><b>No clocks, no calendar glyphs.</b> Urgency is carried by the companion's posture and the colour ramp. A stopwatch icon would say the same thing twice, worse.</li>
+      <li><b>Speech bubbles</b> get a rotated-square tail, ink-outlined, anchored to the companion's mouth height.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Screens</h2>
+
+    <div class="card">
+      <h3>Home — between events</h3>
+      <p style="font-size:.94rem;color:var(--muted)">Two columns on cream. Left: the companion on a card stage with a soft mustard radial glow, a speech bubble at its mouth, and today's timeline as a row of ink-outlined dots below. Right: the plum <b>next-up</b> card — eyebrow label, event title in marker type, meta line, and the minutes remaining in gold at 74px — then <b>rest of today</b> as colour-blocked rows cycling through the accent palette so the day reads varied at a glance.</p>
+      <p style="font-size:.94rem;color:var(--muted)">Header carries the wordmark, streak, and the status pill. Nothing else. This screen is deliberately quiet.</p>
+    </div>
+
+    <div class="card">
+      <h3>Takeover — the signature screen</h3>
+      <p style="font-size:.94rem;color:var(--muted)">Alert-navy ground, one large off-centre radial glow. Companion at 250–330px with a <code>scale + overshoot</code> entrance (~450ms). Beside it, stacked: gold countdown at 86px, event title in marker type at 38px, speech bubble, then two full-width pills — primary in solid alert-cream, secondary as an outline. After the answer, both buttons collapse into a single result chip (sage for acknowledged, coral for deferred).</p>
+      <p style="font-size:.94rem;color:var(--muted)">Two exits only. No close button, no Escape key, no click-outside.</p>
+    </div>
+
+    <div class="card">
+      <h3>Companion picker</h3>
+      <p style="font-size:.94rem;color:var(--muted)">Split view. Left rail: a list of companions, each row an ink-outlined card with a 34px portrait, name, archetype, and five insistence dots. Right stage: the selected companion at 200px on a glow tinted to its own colour, name in marker type, archetype eyebrow, one-line blurb, one sample line in its voice, and an ink pill CTA. Hover previews, click commits.</p>
+      <p style="font-size:.94rem;color:var(--muted)">Footer note, always visible: <em>you can swap companions any time — your points and streak follow you.</em></p>
+    </div>
+
+    <div class="card">
+      <h3>Settings &amp; utility screens</h3>
+      <p style="font-size:.94rem;color:var(--muted)">Deliberately boring. Cream ground, plainly listed facts, one full-width ink or plum pill CTA. Lead time as 5 / 10 / 15 / 30 chips. Connection status, sound toggle, companion swap. These screens make the takeover hit harder by contrast — resist decorating them.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Voice</h2>
+    <p>Write as the companion wherever the companion is on screen. Write plainly everywhere else — the character voice must never bleed into settings labels or error states, or the bit stops working.</p>
+    <div class="dodont">
+      <div class="dd yes">
+        <div class="lab">Yes</div>
+        <q>Ooh, this one's soon! Can I come?</q>
+        <q>Design review in 42 minutes. I'm already excited.</q>
+        <small>One sentence. Present tense. Excited to see you. Sits inside a bubble.</small>
+      </div>
+      <div class="dd no">
+        <div class="lab">No</div>
+        <q>Reminder: Design review starts in 42 minutes.</q>
+        <q>You've missed 3 events this week.</q>
+        <small>System voice and scorekeeping. The companion never sounds like a notification, and never counts your failures back to you.</small>
+      </div>
+    </div>
+    <ul class="plain">
+      <li>Buttons say exactly what they do. "Remind me in 5" delays by five minutes — not "Later", not "OK", not "Continue".</li>
+      <li>Empty state is the one place the companion gets to be dramatic about having nothing to do. Low stakes, good spot for a joke.</li>
+      <li>Never <code>Alert:</code>, <code>Reminder:</code>, or a colon-prefixed system string anywhere the companion is speaking.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Motion &amp; sound</h2>
+    <ul class="plain">
+      <li><b>Always breathing.</b> Even at rest the companion has an idle bob (~3.6s). It should never look static — that's what sells "alive and paying attention".</li>
+      <li><b>Entrances pop, they don't fade.</b> The takeover companion arrives at ~450ms on a <code>cubic-bezier(.34,1.56,.64,1)</code> overshoot. Eager, not polite.</li>
+      <li><b>Bounce rate encodes urgency:</b> 3.6s idle → 2.1s heads-up → 0.62s excited → 0.5s takeover.</li>
+      <li><b>Two chimes, not one.</b> Keep the ascending sparkle for the ambient heads-up; add a distinctly more energetic variant for the takeover so the two moments are audibly different.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Accessibility</h2>
+    <ul class="plain">
+      <li>The takeover must be fully answerable <b>without sound</b> — the countdown and the companion's pose carry everything the chime does.</li>
+      <li><code>prefers-reduced-motion</code> swaps every bounce and pop for a plain fade. The ladder still reads through colour and mouth shape.</li>
+      <li>Both buttons are real focusable controls with a visible focus ring against navy. Tab order: primary, then secondary.</li>
+      <li>Text meets WCAG AA on both <code>cream-bg</code> and <code>alert-navy</code> — see the contrast note above for the two accents that need darkening at small sizes.</li>
+      <li>Urgency is never colour-only. Mouth, posture, and the countdown number each carry it independently.</li>
+    </ul>
+  </section>
+</div>
+
+<!-- ================= TECH ================= -->
+<div class="panel" id="panel-tech" role="tabpanel" aria-labelledby="tab-tech" style="--accent:var(--ink)">
+
+  <section>
+    <h2>Stack</h2>
+    <p class="lede">Electron 31, no bundler, no framework, no build step. <code>npm start</code> runs the app. Three source files in the main process, one HTML file in the renderer.</p>
+    <p>The constraint is deliberate: this is a single-user desktop utility that must be able to seize the screen and survive sleep/wake. Electron gives us OS-level window control and the keychain; a web app gives us neither. Adding a build step would buy nothing at this size.</p>
+  </section>
+
+  <section>
+    <h2>Process model</h2>
+    <div class="flow">
+      <div class="node">
+        <div class="role">Main process</div>
+        <div class="file">src/main.js</div>
+        <ul>
+          <li>Owns the poll loop and every alert timer</li>
+          <li>Decides when an alert fires — the renderer never does</li>
+          <li>Holds <code>dismissedEventIds</code> and <code>lastFiredEventId</code> in memory</li>
+          <li>Fires an OS <code>Notification</code> alongside the in-app alert</li>
+        </ul>
+      </div>
+      <div class="node">
+        <div class="role">Bridge</div>
+        <div class="file">src/preload.js</div>
+        <ul>
+          <li><code>contextIsolation: true</code>, <code>nodeIntegration: false</code></li>
+          <li>Exposes a narrow, named API — no raw <code>ipcRenderer</code></li>
+        </ul>
+      </div>
+      <div class="node">
+        <div class="role">Renderer</div>
+        <div class="file">src/renderer/index.html</div>
+        <ul>
+          <li>Pure presentation: setup, home, alert overlay</li>
+          <li>Owns the live countdown tick and the chime</li>
+          <li>Holds no calendar state of its own</li>
+        </ul>
+      </div>
+      <div class="node">
+        <div class="role">Persistence</div>
+        <div class="file">src/store.js</div>
+        <ul>
+          <li>JSON at <code>userData/involveme-data.json</code></li>
+          <li><code>safeStorage</code> encrypt/decrypt, OS keychain backed</li>
+          <li>Falls back to plaintext when the keychain is unavailable</li>
+        </ul>
+      </div>
+      <div class="node">
+        <div class="role">Calendar</div>
+        <div class="file">src/google.js</div>
+        <ul>
+          <li>Loopback OAuth on <code>127.0.0.1:&lt;random&gt;</code></li>
+          <li>Token refresh, upcoming-events fetch</li>
+          <li>Scope: <code>calendar.readonly</code> — nothing else</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>IPC contract</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Channel</th><th>Direction</th><th>Payload</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">involveme:get-initial-state</td><td>renderer → main <i>(invoke)</i></td><td class="mono">→ { connected, leadMinutes, events }</td></tr>
+          <tr><td class="mono">involveme:connect-google</td><td>renderer → main <i>(invoke)</i></td><td class="mono">{ clientId, clientSecret } → { ok }</td></tr>
+          <tr><td class="mono">involveme:set-lead-minutes</td><td>renderer → main <i>(send)</i></td><td class="mono">minutes</td></tr>
+          <tr><td class="mono">involveme:dismiss-alert</td><td>renderer → main <i>(send)</i></td><td class="mono">—</td></tr>
+          <tr><td class="mono">involveme:snooze-alert</td><td>renderer → main <i>(send)</i></td><td class="mono">eventId</td></tr>
+          <tr><td class="mono">involveme:events-updated</td><td>main → renderer</td><td class="mono">Event[]</td></tr>
+          <tr><td class="mono">involveme:show-alert</td><td>main → renderer</td><td class="mono">Event</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <div class="lab">Known sharp edge</div>
+      <p><code>dismiss-alert</code> takes no payload and closes over <code>lastFiredEventId</code> in the main process. If two alerts fire close together, the wrong event gets marked dismissed. Pass the <code>eventId</code> explicitly, the way <code>snooze-alert</code> already does.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Data model</h2>
+    <pre><span class="c">// userData/involveme-data.json — everything encrypted except clientId</span>
+{
+  <span class="k">leadMinutes</span>: 10,
+  <span class="k">google</span>: {
+    clientId, clientSecret, refreshToken, accessToken,   <span class="c">// { enc, value }</span>
+    accessTokenExpiresAt                                 <span class="c">// epoch ms</span>
+  }
+}
+
+<span class="c">// Event — the only shape the renderer sees</span>
+{ <span class="k">id</span>, <span class="k">title</span>, <span class="k">time</span>, <span class="k">detail</span> }   <span class="c">// time = epoch ms</span>
+
+<span class="c">// To add for v1</span>
+{
+  <span class="k">companionId</span>: <span class="s">'coco'</span>,
+  <span class="k">points</span>: 412,
+  <span class="k">streak</span>: { <span class="k">days</span>: 9, <span class="k">lastAckDate</span>: <span class="s">'2026-08-04'</span> },
+  <span class="k">soundEnabled</span>: true
+}</pre>
+  </section>
+
+  <section>
+    <h2>Sync &amp; alert scheduling</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Constant</th><th>Value</th><th>Behaviour</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">POLL_INTERVAL_MS</td><td class="mono">60 000</td><td>Full re-fetch from Google, then all timers are torn down and rebuilt from scratch. Idempotent by design — a calendar edit is picked up within a minute.</td></tr>
+          <tr><td class="mono">SNOOZE_MS</td><td class="mono">300 000</td><td>Defer re-arms a single timer for that event and clears it from the dismissed set.</td></tr>
+          <tr><td class="mono">STALE_EVENT_GRACE_MS</td><td class="mono">60 000</td><td>An event whose alert time has already passed still fires once — but only if the event itself started less than a minute ago. Prevents a wake-from-sleep alert storm.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.94rem;color:var(--muted)">Access tokens refresh lazily, 60s before expiry, on the next poll that needs one.</p>
+  </section>
+
+  <section>
+    <h2>Auth &amp; storage</h2>
+    <ul class="plain">
+      <li><b>Loopback OAuth</b> on a random <code>127.0.0.1</code> port — Google's "Desktop app" client type allows this without pre-registering the port.</li>
+      <li><b>Read-only scope.</b> <code>calendar.readonly</code> means InvolveMe can see events and cannot touch them. Say this on the connect screen, not just in the README.</li>
+      <li><b>Encrypted at rest</b> via <code>safeStorage</code>, backed by the OS keychain. Nothing leaves the machine except direct calls to Google.</li>
+      <li><b>The user supplies their own client ID and secret.</b> Acceptable for a personal build; a real distribution needs a shipped client and a verified consent screen.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Gaps between the spec and the build</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th style="width:26%">Requirement</th><th>What exists today</th><th style="width:26%">Work</th></tr></thead>
+        <tbody>
+          <tr><td><b>Full-screen takeover</b></td><td>Alert renders inside a 460×760 window. If the window is behind something, the "impossible to ignore" promise doesn't hold.</td><td>Dedicated always-on-top, fullscreen, all-workspaces <code>BrowserWindow</code>. Largest single item.</td></tr>
+          <tr><td><b>Mood ramp</b></td><td>Companion art exists as a parameterised component with all five moods; the app doesn't drive it from time-to-event.</td><td>Port the component into the renderer, derive mood from <code>event.time - now</code>.</td></tr>
+          <tr><td><b>Home dashboard</b></td><td>Single next-event card.</td><td>Two-column layout: stage + speech bubble + timeline, next-up card, rest-of-today stack.</td></tr>
+          <tr><td><b>Companions</b></td><td>None. One hardcoded appearance.</td><td>Companion registry (tone, archetype, insistence, line pools), picker screen, <code>companionId</code> in the store.</td></tr>
+          <tr><td><b>Points &amp; streak</b></td><td>None.</td><td>Award on acknowledge, roll the streak on the first acknowledge of each local day. Pending the product decision.</td></tr>
+          <tr><td><b>Lead-time chips</b></td><td>Free-form minutes.</td><td>Constrain to 5 / 10 / 15 / 30.</td></tr>
+          <tr><td><b>Reduce motion, sound toggle</b></td><td>Neither. One chime, always plays.</td><td>Honour <code>prefers-reduced-motion</code>; add the second chime and a settings toggle.</td></tr>
+          <tr><td><b>Insistence / repeat defers</b></td><td>Defer always returns exactly once, after 5 minutes.</td><td>Bound repeat count by the companion's insistence level.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Risks</h2>
+    <ul class="plain">
+      <li><b>Token expiry in testing mode.</b> An unpublished consent screen makes Google revoke the refresh token after ~7 days. Today that surfaces as a silent <code>console.error</code> and events quietly stop arriving. The app must detect it and show a plain "reconnect" state — a companion that goes quiet forever is worse than no companion.</li>
+      <li><b>Sleep and wake.</b> <code>setTimeout</code> does not survive suspend reliably. The one-minute poll rebuilds every timer, so the worst case is a one-minute-late alert — acceptable, but it means the grace window must never be widened.</li>
+      <li><b>Takeover as an attack surface on attention.</b> A window that grabs focus fullscreen will eventually do it over a screen share or a call. Suppress the takeover while another app is in fullscreen presentation, and fall back to the OS notification.</li>
+      <li><b>Single points of state.</b> <code>dismissedEventIds</code> lives in memory and resets on relaunch. A restart within an event's window re-fires its alert.</li>
+    </ul>
+  </section>
+</div>
+
+  <footer>
+    <span>InvolveMe spec v0.1</span>
+    <span>Compiled from the design doc, the turn-1 dashboard mockups, and the shipped Electron build</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  var accents = { product:'var(--plum)', design:'var(--coral)', tech:'var(--ink)' };
+
+  function select(tab, focus){
+    tabs.forEach(function(t){
+      var on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).classList.toggle('on', on);
+    });
+    var key = tab.id.replace('tab-','');
+    document.documentElement.style.setProperty('--tabc', accents[key]);
+    document.querySelector('.tabbar').style.setProperty('--accent', accents[key]);
+    if (focus) tab.focus();
+    if (history.replaceState) history.replaceState(null, '', '#' + key);
+  }
+
+  tabs.forEach(function(tab, i){
+    tab.addEventListener('click', function(){ select(tab); });
+    tab.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { e.preventDefault(); select(tabs[(i + d + tabs.length) % tabs.length], true); }
+      if (e.key === 'Home') { e.preventDefault(); select(tabs[0], true); }
+      if (e.key === 'End') { e.preventDefault(); select(tabs[tabs.length - 1], true); }
+    });
+  });
+
+  var initial = tabs[0];
+  var hash = (location.hash || '').replace('#','');
+  tabs.forEach(function(t){ if (t.id === 'tab-' + hash) initial = t; });
+  select(initial);
+})();
+</script>
