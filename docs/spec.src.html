@@ -204,13 +204,13 @@ td b{font-weight:800}
   border-right:2px solid var(--line);
 }
 .rung:last-child{border-right:none}
-.rung.dark{background:var(--navy-fill,#1B1550)}
+.rung.dark{background:#3B3A45}
 .rung .when{font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
 .rung .mood{font-family:'Gochi Hand',cursive;font-size:1.25rem;line-height:1.1;color:var(--ink)}
 .rung .where{font-size:.74rem;color:var(--muted);line-height:1.35}
-.rung.dark .mood{color:#FBF6EA}
-.rung.dark .where{color:#C9BFE8}
-.rung.dark .when{color:#A79BE0}
+.rung.dark .mood{color:#FFFFFF}
+.rung.dark .where{color:#D2D1D8}
+.rung.dark .when{color:#FFC742}
 .rung svg{display:block;flex:none}
 .rung .txt{display:flex;flex-direction:column;gap:3px}
 @media (max-width:640px){
@@ -333,7 +333,7 @@ footer{
     <ol class="steps">
       <li><b>Connect</b><span>One-time Google OAuth, read-only calendar scope. Credentials stay on the machine.</span></li>
       <li><b>Between events</b><span>Home shows next-up with a live countdown, the rest of today as color-blocked cards, and the companion idling at its calmest mood.</span></li>
-      <li><b>Escalate</b><span>As the event approaches, the companion walks a color-and-mood ramp — sage → mustard → coral. Ambient, still ignorable.</span></li>
+      <li><b>Escalate</b><span>As the event approaches, the companion walks a colour-and-mood ramp — green → yellow → orange. Ambient, still ignorable.</span></li>
       <li><b>Take over</b><span>At the user's lead time, the app seizes the full screen: giant countdown, event title, companion at full scale, one line of character voice, chime.</span></li>
       <li><b>Answer</b><span>Two choices only. Acknowledge (dismisses for that event, awards points) or defer (returns in 5 minutes). There is no third exit.</span></li>
     </ol>
@@ -422,15 +422,15 @@ footer{
 
   <section>
     <h2>Two visual worlds</h2>
-    <p class="lede">The everyday UI stays calm, cream, and quiet. The takeover is saturated navy at full volume. The contrast between them <em>is</em> the product, so the two should not feel like the same app with a different background — they should feel like a room and a spotlight.</p>
+    <p class="lede">The everyday UI stays white, quiet, and almost entirely grey type. The takeover flips the ground to near-black and lets the accents run at full saturation. The contrast between them <em>is</em> the product, so the two should not feel like the same app with a different background — they should feel like a room and a spotlight.</p>
     <div class="grid g2">
-      <div class="card" style="background:#F4EFE4;border-color:#2B2620;color:#2B2620">
-        <div class="eyebrow" style="color:#8A8071">Calm mode</div>
-        <p style="font-family:'Gochi Hand',cursive;font-size:1.5rem;line-height:1.15;color:#2B2620">Hand-wobbled linework, cream ground, crayon-box accents. Home, settings, empty states.</p>
+      <div class="card" style="background:#FFFFFF;border-color:#3B3A45;color:#3B3A45">
+        <div class="eyebrow" style="color:#6E6D78">Calm mode</div>
+        <p style="font-family:'Gochi Hand',cursive;font-size:1.5rem;line-height:1.15;color:#3B3A45">Hand-wobbled linework, white ground, accents used sparingly. Home, settings, empty states.</p>
       </div>
-      <div class="card" style="background:#1B1550;border-color:#1B1550;color:#FBF6EA">
-        <div class="eyebrow" style="color:#A79BE0">Alert mode</div>
-        <p style="font-family:'Gochi Hand',cursive;font-size:1.5rem;line-height:1.15;color:#FBF6EA">Radial glow, huge marker type, one creature at full scale. The takeover only.</p>
+      <div class="card" style="background:#3B3A45;border-color:#3B3A45;color:#FFFFFF">
+        <div class="eyebrow" style="color:#FFC742">Alert mode</div>
+        <p style="font-family:'Gochi Hand',cursive;font-size:1.5rem;line-height:1.15;color:#FFFFFF">Yellow radial glow, huge marker type, one creature at full scale. The takeover only.</p>
       </div>
     </div>
   </section>
@@ -440,24 +440,24 @@ footer{
     <p>One shape, five moods. Nothing is redrawn between states — only the body colour, the eyes, the mouth, and the arm pose change. This is the single thing InvolveMe should be remembered for.</p>
     <div class="ladder">
       <div class="rung">
-        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#7A8B6F" stroke="#2B2620" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g stroke="#2B2620" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M16 14h4M26 14h4"/><path d="M18 21q5 4 10 0"/></g></svg>
-        <div class="txt"><div class="when">Nothing soon</div><div class="mood">Idle</div><div class="where">Sage · eyes closed · gentle bob. Home screen, resting.</div></div>
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#2DAE78" stroke="#3B3A45" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g stroke="#3B3A45" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M16 14h4M26 14h4"/><path d="M18 21q5 4 10 0"/></g></svg>
+        <div class="txt"><div class="when">Nothing soon</div><div class="mood">Idle</div><div class="where">Secondary Green · eyes closed · gentle bob. Home screen, resting.</div></div>
       </div>
       <div class="rung">
-        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#E8B94B" stroke="#2B2620" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><rect x="32" y="18" width="6" height="16" rx="3" transform="rotate(28 35 26)"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g stroke="#2B2620" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M18 21q5 4 10 0"/></g><g fill="#2B2620"><circle cx="18" cy="14" r="2.4"/><circle cx="28" cy="14" r="2.4"/></g></svg>
-        <div class="txt"><div class="when">30–15 min</div><div class="mood">Heads up</div><div class="where">Mustard · eyes open · one arm waving. Home screen.</div></div>
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#FFC742" stroke="#3B3A45" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><rect x="32" y="18" width="6" height="16" rx="3" transform="rotate(28 35 26)"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g stroke="#3B3A45" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M18 21q5 4 10 0"/></g><g fill="#3B3A45"><circle cx="18" cy="14" r="2.4"/><circle cx="28" cy="14" r="2.4"/></g></svg>
+        <div class="txt"><div class="when">30–15 min</div><div class="mood">Heads up</div><div class="where">Vib Yellow · eyes open · one arm waving. Home screen.</div></div>
       </div>
       <div class="rung">
-        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#FF6B4A" stroke="#2B2620" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><rect x="3" y="20" width="6" height="16" rx="3" transform="rotate(-34 6 28)"/><rect x="37" y="20" width="6" height="16" rx="3" transform="rotate(34 40 28)"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g fill="#2B2620"><ellipse cx="18" cy="13" rx="2.6" ry="3.2"/><ellipse cx="28" cy="13" rx="2.6" ry="3.2"/><ellipse cx="23" cy="21" rx="3.6" ry="3"/></g></svg>
-        <div class="txt"><div class="when">10–5 min</div><div class="mood">Excited</div><div class="where">Coral · bouncing · speech bubble appears. Home screen.</div></div>
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#FF611D" stroke="#3B3A45" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><rect x="3" y="20" width="6" height="16" rx="3" transform="rotate(-34 6 28)"/><rect x="37" y="20" width="6" height="16" rx="3" transform="rotate(34 40 28)"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g fill="#3B3A45"><ellipse cx="18" cy="13" rx="2.6" ry="3.2"/><ellipse cx="28" cy="13" rx="2.6" ry="3.2"/><ellipse cx="23" cy="21" rx="3.6" ry="3"/></g></svg>
+        <div class="txt"><div class="when">10–5 min</div><div class="mood">Excited</div><div class="where">Primary Orange · bouncing · speech bubble appears. Home screen.</div></div>
       </div>
-      <div class="rung dark" style="background:#1B1550">
-        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><circle cx="23" cy="24" r="23" fill="#8B7FE8" opacity=".28"/><g fill="#FF6B4A" stroke="#2B2620" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><rect x="2" y="18" width="6" height="17" rx="3" transform="rotate(-46 5 26)"/><rect x="38" y="18" width="6" height="17" rx="3" transform="rotate(46 41 26)"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g fill="#2B2620"><ellipse cx="18" cy="13" rx="2.8" ry="3.6"/><ellipse cx="28" cy="13" rx="2.8" ry="3.6"/><ellipse cx="23" cy="21" rx="4" ry="3.4"/></g></svg>
-        <div class="txt"><div class="when">Lead time</div><div class="mood">It's time</div><div class="where">Coral on navy · full-screen takeover · fastest bounce.</div></div>
+      <div class="rung dark" style="background:#3B3A45">
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><circle cx="23" cy="24" r="23" fill="#FFC742" opacity=".26"/><g fill="#FF611D" stroke="#FFFFFF" stroke-width="2.4"><rect x="12" y="26" width="22" height="22" rx="7"/><rect x="2" y="18" width="6" height="17" rx="3" transform="rotate(-46 5 26)"/><rect x="38" y="18" width="6" height="17" rx="3" transform="rotate(46 41 26)"/><ellipse cx="23" cy="16" rx="14" ry="13"/></g><g fill="#3B3A45"><ellipse cx="18" cy="13" rx="2.8" ry="3.6"/><ellipse cx="28" cy="13" rx="2.8" ry="3.6"/><ellipse cx="23" cy="21" rx="4" ry="3.4"/></g></svg>
+        <div class="txt"><div class="when">Lead time</div><div class="mood">It's time</div><div class="where">Orange on grey · full-screen takeover · fastest bounce.</div></div>
       </div>
       <div class="rung">
-        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#E8B94B" stroke="#2B2620" stroke-width="2.4" transform="rotate(-3 23 26)"><rect x="12" y="28" width="22" height="20" rx="7"/><rect x="9" y="28" width="6" height="15" rx="3" transform="rotate(9 12 35)"/><rect x="31" y="28" width="6" height="15" rx="3" transform="rotate(-9 34 35)"/><ellipse cx="23" cy="18" rx="14" ry="13"/></g><g stroke="#2B2620" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M18 25q5-4 10 0"/></g><g fill="#2B2620"><circle cx="18" cy="16" r="2.4"/><circle cx="28" cy="16" r="2.4"/></g></svg>
-        <div class="txt"><div class="when">Deferred</div><div class="mood">Pouty</div><div class="where">Mustard · slumped · slow sway. Only on a repeat defer.</div></div>
+        <svg width="46" height="52" viewBox="0 0 46 52" aria-hidden="true"><g fill="#FF9393" stroke="#3B3A45" stroke-width="2.4" transform="rotate(-3 23 26)"><rect x="12" y="28" width="22" height="20" rx="7"/><rect x="9" y="28" width="6" height="15" rx="3" transform="rotate(9 12 35)"/><rect x="31" y="28" width="6" height="15" rx="3" transform="rotate(-9 34 35)"/><ellipse cx="23" cy="18" rx="14" ry="13"/></g><g stroke="#3B3A45" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M18 25q5-4 10 0"/></g><g fill="#3B3A45"><circle cx="18" cy="16" r="2.4"/><circle cx="28" cy="16" r="2.4"/></g></svg>
+        <div class="txt"><div class="when">Deferred</div><div class="mood">Pouty</div><div class="where">Light Red · slumped · slow sway. Only on a repeat defer.</div></div>
       </div>
     </div>
     <div class="note">
@@ -468,27 +468,35 @@ footer{
 
   <section>
     <h2>Colour</h2>
-    <h3>Calm — home, settings, lists</h3>
+    <h3>The palette</h3>
     <div class="swatches">
-      <div class="sw"><div class="chip" style="background:#F4EFE4"></div><div class="meta"><span class="name">cream-bg</span><span class="hex">#F4EFE4</span><span class="use">Primary background</span></div></div>
-      <div class="sw"><div class="chip" style="background:#FBF6EA"></div><div class="meta"><span class="name">card</span><span class="hex">#FBF6EA</span><span class="use">Raised surfaces, stage</span></div></div>
-      <div class="sw"><div class="chip" style="background:#2B2620"></div><div class="meta"><span class="name">ink</span><span class="hex">#2B2620</span><span class="use">Body text, all linework</span></div></div>
-      <div class="sw"><div class="chip" style="background:#5B4B8A"></div><div class="meta"><span class="name">plum</span><span class="hex">#5B4B8A</span><span class="use">Brand, next-up card, primary buttons</span></div></div>
-      <div class="sw"><div class="chip" style="background:#E8654B"></div><div class="meta"><span class="name">coral</span><span class="hex">#E8654B</span><span class="use">Urgency, "starts soon"</span></div></div>
-      <div class="sw"><div class="chip" style="background:#E8B94B"></div><div class="meta"><span class="name">mustard</span><span class="hex">#E8B94B</span><span class="use">Heads-up state, highlights</span></div></div>
-      <div class="sw"><div class="chip" style="background:#7A8B6F"></div><div class="meta"><span class="name">sage</span><span class="hex">#7A8B6F</span><span class="use">Idle, success, "all set"</span></div></div>
+      <div class="sw"><div class="chip" style="background:#FF611D"></div><div class="meta"><span class="name">Primary Orange</span><span class="hex">#FF611D</span><span class="use">Brand, next-up card, primary buttons, the companion at full urgency</span></div></div>
+      <div class="sw"><div class="chip" style="background:#2DAE78"></div><div class="meta"><span class="name">Secondary Green</span><span class="hex">#2DAE78</span><span class="use">Idle companion, success, the acknowledged chip</span></div></div>
+      <div class="sw"><div class="chip" style="background:#FFC742"></div><div class="meta"><span class="name">Vib Yellow</span><span class="hex">#FFC742</span><span class="use">Heads-up companion, the countdown number, the takeover glow</span></div></div>
+      <div class="sw"><div class="chip" style="background:#3B3A45"></div><div class="meta"><span class="name">Secondary Grey</span><span class="hex">#3B3A45</span><span class="use">All text and linework — and the takeover ground</span></div></div>
+      <div class="sw"><div class="chip" style="background:#FF9393"></div><div class="meta"><span class="name">Light Red</span><span class="hex">#FF9393</span><span class="use">Deferred companion, the snoozed chip, soft warnings</span></div></div>
     </div>
-    <h3 style="margin-top:12px">Alert — the takeover, and nothing else</h3>
-    <div class="swatches">
-      <div class="sw"><div class="chip" style="background:#1B1550"></div><div class="meta"><span class="name">alert-navy</span><span class="hex">#1B1550</span><span class="use">Takeover ground</span></div></div>
-      <div class="sw"><div class="chip" style="background:#8B7FE8"></div><div class="meta"><span class="name">alert-glow</span><span class="hex">#8B7FE8</span><span class="use">Radial bloom behind the companion</span></div></div>
-      <div class="sw"><div class="chip" style="background:#FF6B4A"></div><div class="meta"><span class="name">alert-coral</span><span class="hex">#FF6B4A</span><span class="use">Companion at full urgency</span></div></div>
-      <div class="sw"><div class="chip" style="background:#FBCA01"></div><div class="meta"><span class="name">alert-gold</span><span class="hex">#FBCA01</span><span class="use">The countdown number only</span></div></div>
-      <div class="sw"><div class="chip" style="background:#FBF6EA"></div><div class="meta"><span class="name">alert-cream</span><span class="hex">#FBF6EA</span><span class="use">Text and primary button on navy</span></div></div>
+    <p style="font-size:.94rem;color:var(--muted)">The ground is plain white — the palette carries no background colour of its own, so surfaces are white and separation comes from the grey 2px outline rather than from a tinted fill.</p>
+
+    <h3 style="margin-top:12px">How they split across the two modes</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Role</th><th>Calm mode</th><th>Alert mode</th></tr></thead>
+        <tbody>
+          <tr><td><b>Ground</b></td><td>White</td><td>Secondary Grey <span class="mono">#3B3A45</span></td></tr>
+          <tr><td><b>Text &amp; linework</b></td><td>Secondary Grey <span class="mono">#3B3A45</span></td><td>White</td></tr>
+          <tr><td><b>Companion</b></td><td>Green → Yellow → Orange as the event nears</td><td>Primary Orange, white-outlined</td></tr>
+          <tr><td><b>Accent</b></td><td>Orange, one place per screen</td><td>Vib Yellow — countdown and glow only</td></tr>
+          <tr><td><b>Outcome</b></td><td>Green acknowledged · Light Red deferred</td><td>Same two, as a single result chip</td></tr>
+        </tbody>
+      </table>
     </div>
+
     <div class="note">
       <div class="lab">Contrast debt</div>
-      <p>Two combinations fail WCAG AA at body size and must not be used for running text: <code>mustard #E8B94B</code> on cream (1.6:1) and <code>coral #E8654B</code> on cream (3.3:1). Both are fine as fills behind ink text or at display sizes — which is how the mockups use them. For small text on cream, darken to <code>#C08E14</code> and <code>#C4462C</code>.</p>
+      <p><b>Only Secondary Grey is a text colour.</b> Against white it runs 11.2:1. Every other colour in the palette fails WCAG AA for body text on white — Primary Orange 3.0:1, Secondary Green 2.8:1, Light Red 2.1:1, Vib Yellow 1.6:1. They are fills, and the mockups use them that way.</p>
+      <p>On the grey takeover ground the numbers invert: white 11.2:1 and Vib Yellow 7.2:1 both clear AA for body text, Light Red clears it at 5.3:1, and Orange (3.7:1) and Green (4.0:1) are large-text only — fine for the 86px countdown, not for the meta line.</p>
+      <p>If you need coloured text on white at body size, darken: orange to <code>#B84410</code> (5.4:1), green to <code>#1A6B48</code> (6.5:1), light red to <code>#B23636</code> (6.1:1). Vib Yellow has no usable dark variant that still reads as yellow — use grey instead.</p>
     </div>
   </section>
 
@@ -523,10 +531,11 @@ footer{
   <section>
     <h2>Shape &amp; line</h2>
     <ul class="plain">
-      <li><b>2px ink outline on everything.</b> Cards, buttons, the companion, speech bubbles. Slightly hand-traced, never a crisp hairline.</li>
+      <li><b>2px Secondary Grey outline on everything.</b> Cards, buttons, the companion, speech bubbles. Slightly hand-traced, never a crisp hairline.</li>
+      <li><b>The outline inverts on the takeover.</b> Against the grey ground it goes white, so the companion keeps its drawn edge instead of dissolving into the background.</li>
       <li><b>Radii:</b> cards <code>20px</code>, buttons and chips <code>999px</code>, the companion's own silhouette organic and asymmetric — no sharp corners anywhere.</li>
       <li><b>No clocks, no calendar glyphs.</b> Urgency is carried by the companion's posture and the colour ramp. A stopwatch icon would say the same thing twice, worse.</li>
-      <li><b>Speech bubbles</b> get a rotated-square tail, ink-outlined, anchored to the companion's mouth height.</li>
+      <li><b>Speech bubbles</b> get a rotated-square tail, outlined to match, anchored to the companion's mouth height.</li>
     </ul>
   </section>
 
@@ -535,25 +544,25 @@ footer{
 
     <div class="card">
       <h3>Home — between events</h3>
-      <p style="font-size:.94rem;color:var(--muted)">Two columns on cream. Left: the companion on a card stage with a soft mustard radial glow, a speech bubble at its mouth, and today's timeline as a row of ink-outlined dots below. Right: the plum <b>next-up</b> card — eyebrow label, event title in marker type, meta line, and the minutes remaining in gold at 74px — then <b>rest of today</b> as colour-blocked rows cycling through the accent palette so the day reads varied at a glance.</p>
+      <p style="font-size:.94rem;color:var(--muted)">Two columns on white. Left: the companion on a card stage with a soft Vib Yellow radial glow, a speech bubble at its mouth, and today's timeline as a row of grey-outlined dots below. Right: the Primary Orange <b>next-up</b> card — eyebrow label, event title in marker type, meta line, and the minutes remaining in white at 74px — then <b>rest of today</b> as colour-blocked rows cycling through green, yellow, and light red so the day reads varied at a glance.</p>
       <p style="font-size:.94rem;color:var(--muted)">Header carries the wordmark, streak, and the status pill. Nothing else. This screen is deliberately quiet.</p>
     </div>
 
     <div class="card">
       <h3>Takeover — the signature screen</h3>
-      <p style="font-size:.94rem;color:var(--muted)">Alert-navy ground, one large off-centre radial glow. Companion at 250–330px with a <code>scale + overshoot</code> entrance (~450ms). Beside it, stacked: gold countdown at 86px, event title in marker type at 38px, speech bubble, then two full-width pills — primary in solid alert-cream, secondary as an outline. After the answer, both buttons collapse into a single result chip (sage for acknowledged, coral for deferred).</p>
+      <p style="font-size:.94rem;color:var(--muted)">Secondary Grey ground, one large off-centre Vib Yellow radial glow. Companion at 250–330px in Primary Orange with a <code>scale + overshoot</code> entrance (~450ms). Beside it, stacked: Vib Yellow countdown at 86px, event title in white marker type at 38px, speech bubble, then two full-width pills — primary in solid white, secondary as a white outline. After the answer, both buttons collapse into a single result chip (green for acknowledged, light red for deferred).</p>
       <p style="font-size:.94rem;color:var(--muted)">Two exits only. No close button, no Escape key, no click-outside.</p>
     </div>
 
     <div class="card">
       <h3>Companion picker</h3>
-      <p style="font-size:.94rem;color:var(--muted)">Split view. Left rail: a list of companions, each row an ink-outlined card with a 34px portrait, name, archetype, and five insistence dots. Right stage: the selected companion at 200px on a glow tinted to its own colour, name in marker type, archetype eyebrow, one-line blurb, one sample line in its voice, and an ink pill CTA. Hover previews, click commits.</p>
+      <p style="font-size:.94rem;color:var(--muted)">Split view. Left rail: a list of companions, each row a grey-outlined card with a 34px portrait, name, archetype, and five insistence dots. Right stage: the selected companion at 200px on a glow tinted to its own colour, name in marker type, archetype eyebrow, one-line blurb, one sample line in its voice, and a grey pill CTA. Hover previews, click commits.</p>
       <p style="font-size:.94rem;color:var(--muted)">Footer note, always visible: <em>you can swap companions any time — your points and streak follow you.</em></p>
     </div>
 
     <div class="card">
       <h3>Settings &amp; utility screens</h3>
-      <p style="font-size:.94rem;color:var(--muted)">Deliberately boring. Cream ground, plainly listed facts, one full-width ink or plum pill CTA. Lead time as 5 / 10 / 15 / 30 chips. Connection status, sound toggle, companion swap. These screens make the takeover hit harder by contrast — resist decorating them.</p>
+      <p style="font-size:.94rem;color:var(--muted)">Deliberately boring. White ground, plainly listed facts, one full-width grey or orange pill CTA. Lead time as 5 / 10 / 15 / 30 chips. Connection status, sound toggle, companion swap. These screens make the takeover hit harder by contrast — resist decorating them.</p>
     </div>
   </section>
 
@@ -596,8 +605,8 @@ footer{
     <ul class="plain">
       <li>The takeover must be fully answerable <b>without sound</b> — the countdown and the companion's pose carry everything the chime does.</li>
       <li><code>prefers-reduced-motion</code> swaps every bounce and pop for a plain fade. The ladder still reads through colour and mouth shape.</li>
-      <li>Both buttons are real focusable controls with a visible focus ring against navy. Tab order: primary, then secondary.</li>
-      <li>Text meets WCAG AA on both <code>cream-bg</code> and <code>alert-navy</code> — see the contrast note above for the two accents that need darkening at small sizes.</li>
+      <li>Both buttons are real focusable controls with a visible focus ring against the grey ground. Tab order: primary, then secondary.</li>
+      <li>Text meets WCAG AA on both white and Secondary Grey — which in practice means grey type on white and white type on grey. See the contrast note above: four of the five palette colours are fills, not text colours.</li>
       <li>Urgency is never colour-only. Mouth, posture, and the countdown number each carry it independently.</li>
     </ul>
   </section>
