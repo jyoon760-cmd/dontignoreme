@@ -41,13 +41,13 @@ async function getValidAccessToken() {
 }
 
 function sendEvents() {
-  if (mainWindow) mainWindow.webContents.send('dim:events-updated', currentEvents);
+  if (mainWindow) mainWindow.webContents.send('involveme:events-updated', currentEvents);
 }
 
 function fireAlert(ev) {
   alertTimers.delete(ev.id);
   lastFiredEventId = ev.id;
-  if (mainWindow) mainWindow.webContents.send('dim:show-alert', ev);
+  if (mainWindow) mainWindow.webContents.send('involveme:show-alert', ev);
   if (Notification.isSupported()) {
     new Notification({ title: ev.title, body: 'Starting now' + (ev.detail ? ` · ${ev.detail}` : '') }).show();
   }
@@ -100,13 +100,13 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 }
 
-ipcMain.handle('dim:get-initial-state', () => ({
+ipcMain.handle('involveme:get-initial-state', () => ({
   connected: isConnected(),
   leadMinutes: data.leadMinutes,
   events: currentEvents,
 }));
 
-ipcMain.handle('dim:connect-google', async (_event, { clientId, clientSecret }) => {
+ipcMain.handle('involveme:connect-google', async (_event, { clientId, clientSecret }) => {
   const tokens = await google.runOAuthLoopback({ clientId, clientSecret });
   data.google = {
     clientId,
@@ -120,17 +120,17 @@ ipcMain.handle('dim:connect-google', async (_event, { clientId, clientSecret }) 
   return { ok: true };
 });
 
-ipcMain.on('dim:set-lead-minutes', (_event, minutes) => {
+ipcMain.on('involveme:set-lead-minutes', (_event, minutes) => {
   data.leadMinutes = minutes;
   store.save(data);
   scheduleAlerts(currentEvents);
 });
 
-ipcMain.on('dim:dismiss-alert', () => {
+ipcMain.on('involveme:dismiss-alert', () => {
   if (lastFiredEventId) dismissedEventIds.add(lastFiredEventId);
 });
 
-ipcMain.on('dim:snooze-alert', (_event, eventId) => {
+ipcMain.on('involveme:snooze-alert', (_event, eventId) => {
   if (!eventId) return;
   dismissedEventIds.delete(eventId);
   const timer = setTimeout(() => {

@@ -8,10 +8,10 @@ const SCOPE = 'https://www.googleapis.com/auth/calendar.readonly';
 const EVENTS_URL = 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
 
 const CALLBACK_PAGE = (message) => `<!DOCTYPE html>
-<html><head><title>dim</title></head>
+<html><head><title>InvolveMe</title></head>
 <body style="font-family:sans-serif;text-align:center;padding-top:80px;color:#18150F;">
 <h2>${message}</h2>
-<p>You can close this tab and go back to dim.</p>
+<p>You can close this tab and go back to InvolveMe.</p>
 </body></html>`;
 
 // Google's OAuth "Desktop app" client type accepts any http://127.0.0.1:<port> redirect

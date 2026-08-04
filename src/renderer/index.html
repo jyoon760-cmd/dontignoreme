@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>dim</title>
+<title>InvolveMe</title>
 <style>
   :root{
     --paper:#F7F4EB; --card:#FFFFFF; --ink:#18150F;
@@ -123,7 +123,7 @@
   <div class="topbar">
     <div class="brand">
       <svg class="icon-sm" viewBox="0 0 100 100"><use href="#dog-idle"/></svg>
-      <span class="display">dim.</span>
+      <span class="display">InvolveMe</span>
     </div>
     <div class="clock" id="clock">--:--</div>
   </div>
@@ -198,7 +198,7 @@ function renderChips(){
     const b = document.createElement("button");
     b.className = "chip" + (m===leadMinutes ? " active" : "");
     b.textContent = m + " min";
-    b.onclick = ()=>{ leadMinutes = m; window.dim.setLeadMinutes(m); renderChips(); };
+    b.onclick = ()=>{ leadMinutes = m; window.involveMe.setLeadMinutes(m); renderChips(); };
     wrap.appendChild(b);
   });
 }
@@ -270,9 +270,9 @@ function showOverlay(ev){
 }
 function hideOverlay(){ document.getElementById("overlay").classList.remove("show"); }
 
-document.getElementById("gotit-btn").onclick = ()=>{ window.dim.dismissAlert(); hideOverlay(); };
+document.getElementById("gotit-btn").onclick = ()=>{ window.involveMe.dismissAlert(); hideOverlay(); };
 document.getElementById("snooze-btn").onclick = ()=>{
-  window.dim.snoozeAlert(currentAlertEventId);
+  window.involveMe.snoozeAlert(currentAlertEventId);
   hideOverlay();
 };
 
@@ -286,7 +286,7 @@ document.getElementById("connect-btn").onclick = async ()=>{
   }
   statusEl.textContent = "Opening Google sign-in in your browser…";
   try{
-    await window.dim.connectGoogle({ clientId, clientSecret });
+    await window.involveMe.connectGoogle({ clientId, clientSecret });
     document.getElementById("setup").classList.add("hidden");
     document.getElementById("main-ui").classList.remove("hidden");
   }catch(e){
@@ -294,11 +294,11 @@ document.getElementById("connect-btn").onclick = async ()=>{
   }
 };
 
-window.dim.onEventsUpdated((updated)=>{ events = updated; renderList(); tickHero(); });
-window.dim.onShowAlert((ev)=> showOverlay(ev));
+window.involveMe.onEventsUpdated((updated)=>{ events = updated; renderList(); tickHero(); });
+window.involveMe.onShowAlert((ev)=> showOverlay(ev));
 
 async function init(){
-  const state = await window.dim.getInitialState();
+  const state = await window.involveMe.getInitialState();
   leadMinutes = state.leadMinutes || 10;
   events = state.events || [];
   renderChips();

@@ -1,5 +1,5 @@
 {
-  "name": "dim",
+  "name": "involveme",
   "version": "1.0.0",
   "description": "A friendly desktop companion that watches your Google Calendar and gives you a heads-up before events start.",
   "main": "src/main.js",
