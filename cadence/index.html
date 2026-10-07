@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Cadence</title>
+<style>
+  /* ---------- Design tokens (see cadence_design.md) ---------- */
+  :root{
+    --bg:#FAFAF8;
+    --surface:#FFFFFF;
+    --text:#1C1B1A;
+    --text-2:#6B6863;
+    --primary:#5B6EF5;
+    --accent:#E8927C;
+    --accent-pressed:#DF7F67;
+    --on-accent:#1C1B1A;   /* dark text on terracotta: ~7:1. White would only reach ~2.4:1. */
+    --hairline:#EAE8E3;
+    --wave-1:var(--primary);
+    --wave-2:var(--accent);
+
+    --font:-apple-system,"SF Pro Text","SF Pro Display",Inter,system-ui,sans-serif;
+    --ease-out:cubic-bezier(.2,.7,.2,1);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#141312;
+      --surface:#1F1E1C;
+      --text:#F4F3F0;
+      --text-2:#A6A29B;
+      --primary:#8B98FF;
+      --accent:#F0A88F;
+      --accent-pressed:#F4B9A5;
+      --on-accent:#1C1B1A;
+      --hairline:#2C2A27;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#141312;
+    --surface:#1F1E1C;
+    --text:#F4F3F0;
+    --text-2:#A6A29B;
+    --primary:#8B98FF;
+    --accent:#F0A88F;
+    --accent-pressed:#F4B9A5;
+    --on-accent:#1C1B1A;
+    --hairline:#2C2A27;
+  }
+
+  /* ---------- Base ---------- */
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font);
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  :focus-visible{outline:2px solid var(--primary);outline-offset:3px;}
+
+  /* ---------- Landing layout ---------- */
+  .landing{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    flex-direction:column;
+    padding:
+      max(24px, env(safe-area-inset-top))
+      max(24px, env(safe-area-inset-right))
+      max(32px, env(safe-area-inset-bottom))
+      max(24px, env(safe-area-inset-left));
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    width:100%;
+    max-width:440px;
+    margin:0 auto;
+    font-size:17px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  .brand svg{width:24px;height:24px;color:var(--primary);flex:none;}
+
+  /* The wave sits between the brand and the copy, bleeding to the screen edges. */
+  .motif{
+    flex:1 1 auto;
+    display:flex;
+    align-items:center;
+    margin:32px calc(-1 * max(24px, env(safe-area-inset-left)));
+    min-height:180px;
+  }
+  .motif svg{display:block;width:100%;height:auto;max-height:42vh;}
+  .motif path{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+  .w1{stroke:var(--wave-1);stroke-width:1.5;opacity:.9;}
+  .w2{stroke:var(--wave-1);stroke-width:1.5;opacity:.35;}
+  .w3{stroke:var(--wave-2);stroke-width:1.5;opacity:.85;}
+  .w4{stroke:var(--wave-1);stroke-width:1.5;opacity:.18;}
+
+  .content{
+    width:100%;
+    max-width:440px;
+    margin:0 auto;
+  }
+  .mission{
+    margin:0 0 48px;
+    font-size:28px;
+    line-height:1.25;
+    font-weight:600;
+    letter-spacing:-0.02em;
+    text-wrap:balance;
+  }
+
+  .cta{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    min-height:56px;
+    padding:0 24px;
+    border:0;
+    border-radius:20px;
+    background:var(--accent);
+    color:var(--on-accent);
+    font:inherit;
+    font-size:17px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
+    transition:background-color 200ms var(--ease-out), transform 200ms var(--ease-out);
+  }
+  .cta:hover{background:var(--accent-pressed);}
+  .cta:active{transform:scale(.985);}
+
+  .signin{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:44px;
+    margin-top:12px;
+    color:var(--text-2);
+    font-size:15px;
+    font-weight:500;
+    text-decoration:none;
+    border-radius:12px;
+  }
+  .signin span{color:var(--text);}
+  .signin:hover span{text-decoration:underline;text-underline-offset:3px;}
+
+  /* ---------- Motion: gentle fade + 8px rise, staggered 40ms ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(8px);
+    animation:rise 250ms var(--ease-out) forwards;
+    animation-delay:calc(var(--i, 0) * 40ms + 60ms);
+  }
+  @keyframes rise{to{opacity:1;transform:none;}}
+
+  /* The wave draws itself in once, slowly, then holds still. */
+  .motif path{
+    stroke-dasharray:1;
+    stroke-dashoffset:1;
+    animation:draw 1400ms var(--ease-out) forwards;
+    animation-delay:calc(var(--d, 0) * 120ms + 120ms);
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal,.motif path{animation:none;opacity:1;transform:none;stroke-dashoffset:0;}
+  }
+
+  /* Larger screens: same composition, just more air. */
+  @media (min-width:768px){
+    .mission{font-size:34px;}
+    .motif{margin-top:48px;margin-bottom:48px;}
+  }
+</style>
+</head>
+<body>
+  <main class="landing">
+    <header class="brand reveal" style="--i:0">
+      <!-- Wordmark glyph: a single soft wave, 1.5px rounded line -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M2 12c2.5 0 2.5-5 5-5s2.5 10 5 10 2.5-10 5-10 2.5 5 5 5"/>
+      </svg>
+      Cadence
+    </header>
+
+    <!-- Abstract line-drawn wave motif. Decorative only. -->
+    <div class="motif" aria-hidden="true">
+      <svg viewBox="0 0 400 200" preserveAspectRatio="none">
+        <path class="w4" pathLength="1" style="--d:0"
+              d="M0 128 C 50 128, 70 88, 120 88 S 190 136, 240 136 S 330 80, 400 92"/>
+        <path class="w2" pathLength="1" style="--d:1"
+              d="M0 112 C 45 112, 70 64, 125 64 S 195 128, 250 128 S 335 70, 400 78"/>
+        <path class="w1" pathLength="1" style="--d:2"
+              d="M0 100 C 40 100, 70 48, 130 48 S 200 120, 260 120 S 340 60, 400 64"/>
+        <path class="w3" pathLength="1" style="--d:3"
+              d="M0 150 C 60 150, 80 118, 140 118 S 220 162, 280 162 S 350 128, 400 132"/>
+      </svg>
+    </div>
+
+    <section class="content">
+      <h1 class="mission reveal" style="--i:1">
+        Understand your PCOS patterns, and bring them to every appointment.
+      </h1>
+
+      <button type="button" class="cta reveal" style="--i:2">Get started</button>
+
+      <a href="#" class="signin reveal" style="--i:3">
+        Already have an account?&nbsp;<span>Sign in</span>
+      </a>
+    </section>
+  </main>
+</body>
+</html>
