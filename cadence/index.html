@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
 <title>Cadence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Inter:wght@400;500;600&display=swap">
 <style>
   /* ---------- Design tokens (see cadence_design.md) ---------- */
   :root{
@@ -20,7 +23,9 @@
     --wave-1:var(--primary);
     --wave-2:var(--accent);
 
-    --font:-apple-system,"SF Pro Text","SF Pro Display",Inter,system-ui,sans-serif;
+    /* Serif for headlines, sans for buttons and smaller text. */
+    --font-serif:"Newsreader",Georgia,"Times New Roman",serif;
+    --font:"Inter",-apple-system,"SF Pro Text",system-ui,sans-serif;
     --ease-out:cubic-bezier(.2,.7,.2,1);
   }
   @media (prefers-color-scheme: dark){
@@ -83,8 +88,9 @@
     width:100%;
     max-width:440px;
     margin:0 auto;
-    font-size:17px;
-    font-weight:600;
+    font-family:var(--font-serif);
+    font-size:22px;
+    font-weight:500;
     letter-spacing:-0.01em;
   }
   .brand svg{width:24px;height:24px;color:var(--primary);flex:none;}
@@ -111,10 +117,11 @@
   }
   .mission{
     margin:0 0 48px;
-    font-size:28px;
-    line-height:1.25;
-    font-weight:600;
-    letter-spacing:-0.02em;
+    font-family:var(--font-serif);
+    font-size:36px;
+    line-height:1.12;
+    font-weight:400;
+    letter-spacing:-0.015em;
     text-wrap:balance;
   }
 
@@ -130,9 +137,9 @@
     background:var(--accent);
     color:var(--on-accent);
     font:inherit;
-    font-size:17px;
+    font-size:16px;
     font-weight:600;
-    letter-spacing:-0.01em;
+    letter-spacing:-0.005em;
     cursor:pointer;
     -webkit-tap-highlight-color:transparent;
     transition:background-color 200ms var(--ease-out), transform 200ms var(--ease-out);
@@ -179,8 +186,8 @@
 
   /* Larger screens: same composition, just more air. */
   @media (min-width:768px){
-    .mission{font-size:34px;}
-    .motif{margin-top:48px;margin-bottom:48px;}
+    .mission{font-size:42px;margin-bottom:40px;}
+    .motif svg{max-height:34vh;}
   }
 </style>
 </head>
