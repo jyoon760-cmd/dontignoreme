@@ -116,7 +116,9 @@
   }
   .motif svg{display:block;width:100%;height:auto;max-height:42vh;}
   .motif path{fill:none;stroke-linecap:round;stroke-linejoin:round;}
-  .motif path{stroke-width:1.5;}
+  .motif path{stroke-width:2.5;}
+  /* Hand-drawn look: wobble the lines slightly, then eat into them with grain. */
+  .motif svg{filter:url(#hand-drawn);}
   .w1{stroke:var(--wave-1);}
   .w2{stroke:var(--wave-2);}
   .w3{stroke:var(--wave-3);}
@@ -215,6 +217,19 @@
     </header>
 
     <!-- Line-drawn motif echoing the logo glyph. Decorative only. -->
+    <!-- Filter that gives the lines a wobbly, pencil-grain edge. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <filter id="hand-drawn" x="-2%" y="-10%" width="104%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="4" result="wobble"/>
+        <feDisplacementMap in="SourceGraphic" in2="wobble" scale="5"
+                           xChannelSelector="R" yChannelSelector="G" result="wobbly"/>
+        <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="9" result="grain"/>
+        <feColorMatrix in="grain" type="matrix" result="grain-mask"
+                       values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -2.4 0 0 0 1.95"/>
+        <feComposite in="wobbly" in2="grain-mask" operator="in"/>
+      </filter>
+    </svg>
+
     <div class="motif" aria-hidden="true">
       <svg viewBox="0 0 400 200" preserveAspectRatio="none">
         <clipPath id="wave-reveal">
