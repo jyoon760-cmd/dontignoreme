@@ -167,20 +167,25 @@
   .cta:hover{background:var(--accent-pressed);}
   .cta:active{transform:scale(.985);}
 
-  .signin{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:44px;
-    margin-top:12px;
+  .privacy{
+    margin:16px auto 0;
+    max-width:340px;
     color:var(--text-2);
     font-size:15px;
     font-weight:500;
-    text-decoration:none;
-    border-radius:12px;
+    line-height:1.45;
+    text-align:center;
+    text-wrap:balance;
   }
-  .signin span{color:var(--text);}
-  .signin:hover span{text-decoration:underline;text-underline-offset:3px;}
+  .privacy a{
+    display:inline-block;
+    padding:12px 4px;      /* keeps the tap target around 44px tall */
+    margin:-12px -4px;
+    color:var(--text);
+    text-decoration:none;
+    border-radius:8px;
+  }
+  .privacy a:hover{text-decoration:underline;text-underline-offset:3px;}
 
   /* ---------- Motion: gentle fade + 8px rise, staggered 40ms ---------- */
   .reveal{
@@ -261,9 +266,9 @@
 
       <button type="button" class="cta reveal" style="--i:2">Get started</button>
 
-      <a href="#" class="signin reveal" style="--i:3">
-        Already have an account?&nbsp;<span>Sign in</span>
-      </a>
+      <p class="privacy reveal" style="--i:3">
+        No account needed. Your data stays on your phone. <a href="#">Learn&nbsp;More</a>
+      </p>
     </section>
   </main>
 </body>
